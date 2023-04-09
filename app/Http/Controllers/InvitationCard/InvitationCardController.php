@@ -352,6 +352,23 @@ class InvitationCardController extends Controller
     }
 
 
+    public function show($url){
+
+        $invitationCard = InvitationCard::where('url', $url)
+        ->with('card')
+        ->first();
+        if(!$invitationCard)
+            return redirect()->back()->withErrors('کارت یافت نشد');
+
+        if($invitationCard->card_type == WeddingCard::class){
+            return view('invitation_card.show_wedding_card',compact('invitationCard'));
+        }else{
+            return redirect()->back()->withErrors('کارت نامعتبر است');
+        }
+
+    }
+
+
     private function generateUrlCode()
     {
         do {
