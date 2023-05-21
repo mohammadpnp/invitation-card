@@ -1,56 +1,90 @@
-version: '3'
+version: "3.8"
+
+
 services:
-    laravel.test:
+    #nginx
+    server:
+        # image: 'nginx:stable-alpine'
+        container_name: nginx
         build:
-            context: ./vendor/laravel/sail/runtimes/8.2
-            dockerfile: Dockerfile
-            args:
-                WWWGROUP: '${WWWGROUP}'
-        image: sail-8.2/app
-        extra_hosts:
-            - 'host.docker.internal:host-gateway'
+            context: .
+            dockerfile: ./dockerfiles-dev/nginx/nginx.dockerfile
         ports:
-            - '${APP_PORT:-80}:80'
-            - '${VITE_PORT:-5173}:${VITE_PORT:-5173}'
-        environment:
-            WWWUSER: '${WWWUSER}'
-            LARAVEL_SAIL: 1
-            XDEBUG_MODE: '${SAIL_XDEBUG_MODE:-off}'
-            XDEBUG_CONFIG: '${SAIL_XDEBUG_CONFIG:-client_host=host.docker.internal}'
-            IGNITION_LOCAL_SITES_PATH: '${PWD}'
+            - '8000:8000'
         volumes:
-            - '.:/var/www/html'
-        networks:
-            - sail
+            - .:/var/www/html
+            - ./docker-dev/nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+        depends_on:
+            - php
+            - mysql
+
+    #php
+    php:
+        container_name: php
+        build:
+            context: .
+            dockerfile: ./dockerfiles-dev/php/php.dockerfile
+        volumes:
+            - .:/var/www/html:delegated
+
+    #mysql
+    mysql:
+        container_name: mysql
+        command: --default-authentication-plugin=mysql_native_password
+        image: 'mysql:5.7'
+        env_file:
+            - ./dockerfiles-dev/env/mysql.env
+        volumes:
+            - .:/var/www/html
+
+    #composer
+    composer:
+        container_name: composer
+        build:
+            context: ./dockerfiles-dev
+            dockerfile: ./composer/composer.dockerfile
+        volumes:
+            - .:/var/www/html
+
+    #artisan
+    artisan:
+        container_name: artisan
+        build:
+            context: .
+            dockerfile: ./dockerfiles-dev/php/php.dockerfile
+        volumes:
+            - .:/var/www/html
+        entrypoint: ['php', '/var/www/html/artisan']
+
+    #redis
+    redis:
+        container_name: redis
+        image: redis:alpine
+        volumes:
+            - .:/var/www/html
+
+
+    supervisor:
+        container_name: supervisor
+        build:
+            context: .
+            dockerfile: ./dockerfiles-dev/supervisor/supervisor.dockerfile
+        volumes:
+            - .:/var/www/html
+        depends_on:
+            - php
+            - mysql
+            - redis
+
+
+    #phpmyadmin
+    phpmyadmin:
+        container_name: phpmyadmin
         depends_on:
             - mysql
-    mysql:
-        image: 'mysql/mysql-server:8.0'
-        ports:
-            - '${FORWARD_DB_PORT:-3306}:3306'
+        image: phpmyadmin/phpmyadmin
         environment:
-            MYSQL_ROOT_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ROOT_HOST: '%'
-            MYSQL_DATABASE: '${DB_DATABASE}'
-            MYSQL_USER: '${DB_USERNAME}'
-            MYSQL_PASSWORD: '${DB_PASSWORD}'
-            MYSQL_ALLOW_EMPTY_PASSWORD: 1
-        volumes:
-            - 'sail-mysql:/var/lib/mysql'
-            - './vendor/laravel/sail/database/mysql/create-testing-database.sh:/docker-entrypoint-initdb.d/10-create-testing-database.sh'
-        networks:
-            - sail
-        healthcheck:
-            test:
-                - CMD
-                - mysqladmin
-                - ping
-                - '-p${DB_PASSWORD}'
-            retries: 3
-            timeout: 5s
-networks:
-    sail:
-        driver: bridge
-volumes:
-    sail-mysql:
-        driver: local
+            - PMA_HOST=mysql
+            - PMA_PORT=3306
+        ports:
+            - 8001:80
