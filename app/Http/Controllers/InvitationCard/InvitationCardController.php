@@ -11,7 +11,7 @@ use App\Models\Description;
 use App\Models\FairPlace;
 use App\Models\PaperCard;
 use App\Models\Survey;
-use ZanySoft\LaravelPDF\PDF;
+//use ZanySoft\LaravelPDF\PDF;
 use Str;
 use App\Models\User;
 use App\Models\WeddingCard;
@@ -383,10 +383,10 @@ class InvitationCardController extends Controller
                     'card_id' => $card->id
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -408,10 +408,10 @@ class InvitationCardController extends Controller
                     'card_id' => $card->id
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -433,10 +433,10 @@ class InvitationCardController extends Controller
                     'card_id' => $card->id
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -458,10 +458,10 @@ class InvitationCardController extends Controller
                     'card_id' => $card->id
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -481,10 +481,10 @@ class InvitationCardController extends Controller
                     'logo' => $fullPath,
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -504,10 +504,10 @@ class InvitationCardController extends Controller
                     'manager_photo' => $fullPath,
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
@@ -527,24 +527,24 @@ class InvitationCardController extends Controller
                     'poster' => $fullPath,
                 ]);
             } else {
-                return 'false2';
+                return false;
             }
         } else {
-            return 'false1';
+            return false;
         }
     }
 
-    public function exportPaperCardPdf($url)
-    {
-        $invitationCard = InvitationCard::where('url', $url)
-            ->with('card')
-            ->first();
-        if (!$invitationCard)
-            return redirect()->back()->withErrors('کارت یافت نشد');
-
-        $pdf = new PDF();
-        $pdf->loadView('invitation_card.show_paper_card', compact('invitationCard'));
-
-        return $pdf->stream(time().'-'.$invitationCard->card->first_name.'-'.$invitationCard->card->last_name.'.pdf');
-    }
+//    public function exportPaperCardPdf($url)
+//    {
+//        $invitationCard = InvitationCard::where('url', $url)
+//            ->with('card')
+//            ->first();
+//        if (!$invitationCard)
+//            return redirect()->back()->withErrors('کارت یافت نشد');
+//
+//        $pdf = new PDF();
+//        $pdf->loadView('invitation_card.show_paper_card', compact('invitationCard'));
+//
+//        return $pdf->stream(time().'-'.$invitationCard->card->first_name.'-'.$invitationCard->card->last_name.'.pdf');
+//    }
 }

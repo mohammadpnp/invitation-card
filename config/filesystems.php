@@ -67,6 +67,20 @@ return [
             'visibility' => 'public',
         ],
 
+        'fairs_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/fairs/pictures',
+            'url' => env('APP_URL') . '/uploads/fairs/pictures',
+            'visibility' => 'public',
+        ],
+
+        'fair_places_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/fair_places/pictures',
+            'url' => env('APP_URL') . '/uploads/fair_places/pictures',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
