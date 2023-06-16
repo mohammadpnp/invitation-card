@@ -81,6 +81,20 @@ return [
             'visibility' => 'public',
         ],
 
+        'card_attachment' => [
+            'driver' => 'local',
+            'root' => 'uploads/card_attachment/pictures',
+            'url' => env('APP_URL') . '/uploads/card_attachment/pictures',
+            'visibility' => 'public',
+        ],
+
+        'poem_voices' => [
+            'driver' => 'local',
+            'root' => 'uploads/poem_voices/voices',
+            'url' => env('APP_URL') . '/uploads/poem_voices/voices',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*

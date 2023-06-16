@@ -21,4 +21,9 @@ class FairPlace extends Model
     {
         return Storage::disk('fairs_pictures')->url($this->poster ?? config('app.settings.storage.default_image'));
     }
+
+    public function fairs()
+    {
+        return $this->hasMany(Fair::class, 'fair_place_id');
+    }
 }

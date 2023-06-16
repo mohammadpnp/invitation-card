@@ -14,6 +14,7 @@ class FairsController extends Controller
     public function index(Request $request)
     {
         $fairs = Fair::filter($request)
+            ->with('place')
             ->orderByDesc('id')
             ->paginate($request->get('per_page',10));
 

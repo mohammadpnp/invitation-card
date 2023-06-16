@@ -25,3 +25,6 @@ use Illuminate\Support\Facades\Route;
 Route::get('/fairs' , [FairsController::class,'index']);
 Route::get('/fair-places' , [FairsController::class,'fairPlaces']);
 Route::get('/invitation-cards/{fairId}' , [InvitationCardController::class,'index']);
+
+
+Route::get('/invitation-cards/show/{Id}' , [InvitationCardController::class,'show']);
