@@ -2,11 +2,10 @@
 
 namespace App\Http\Resources;
 
-use App\Models\Fair;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class InvitationCardResource extends JsonResource
+class PaperCardResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -27,8 +26,6 @@ class InvitationCardResource extends JsonResource
             'started_at' => $this->started_at,
             'finished_at' => $this->finished_at,
             'fair' => new FairsResource($this->fair),
-            'description_header' => $this->description_header,
-            'description_footer' => $this->description_footer,
             'description' => $this->description,
             'manager_photo' => $this->manager_photo_url,
             'manager_name' => $this->manager_name,

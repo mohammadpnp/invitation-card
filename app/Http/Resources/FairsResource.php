@@ -23,7 +23,7 @@ class FairsResource extends JsonResource
             'presenter' => $this->presenter,
             'start_date' => $this->start_date,
             'end_date' => $this->end_date,
-            'place' => new FairPlace($this->place)
+            'place' => new FairPlacesResource($this->fairPlace)
         ];
     }
 }

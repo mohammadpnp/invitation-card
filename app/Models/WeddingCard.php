@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasMainPicture;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WeddingCard extends Model
 {
-    use HasFactory;
+    use HasFactory , HasMainPicture;
 
     protected $fillable = [
         'card_id',
@@ -56,14 +57,14 @@ class WeddingCard extends Model
         return $this->poster ? Storage::disk('wedding_card_picturs')->url($this->poster) : null;
     }
 
-    public function pictures()
-    {
-        return $this->morphMany(CardAttachment::class, 'card','card_type');
-    }
-
     public function fair()
     {
-        return $this->belongsTo(FairPlace::class , 'fair_id');
+        return $this->belongsTo(Fair::class , 'fair_id');
+    }
+
+    public function poem()
+    {
+        return $this->belongsTo(Poem::class , 'poem_id');
     }
 
 }

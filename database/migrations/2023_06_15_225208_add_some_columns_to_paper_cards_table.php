@@ -37,6 +37,7 @@ return new class extends Migration
             $table->string('youtube_link')->nullable();
             $table->string('lat')->nullable();
             $table->string('lng')->nullable();
+            $table->unsignedBigInteger('poem_id')->nullable();
         });
     }
 
@@ -71,6 +72,7 @@ return new class extends Migration
             $table->dropColumn('video_link');
             $table->dropColumn('lat');
             $table->dropColumn('lng');
+            $table->dropColumn('poem_id');
         });
     }
 };

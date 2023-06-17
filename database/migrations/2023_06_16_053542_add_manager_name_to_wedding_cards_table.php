@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::table('wedding_cards', function (Blueprint $table) {
             $table->string('manager_name')->nullable();
             $table->string('video_link')->nullable();
+            $table->unsignedBigInteger('poem_id')->nullable();
         });
     }
 
@@ -25,6 +26,7 @@ return new class extends Migration
         Schema::table('wedding_cards', function (Blueprint $table) {
             $table->dropColumn('manager_name');
             $table->dropColumn('video_link');
+            $table->dropColumn('poem_id');
         });
     }
 };

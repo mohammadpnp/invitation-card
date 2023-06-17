@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\Api\DeputizeController;
 use App\Http\Controllers\Api\FairsController;
 use App\Http\Controllers\Api\InvitationCardController;
+use App\Http\Controllers\Api\PaperCardController;
+use App\Http\Controllers\Api\SpecialSellController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -21,10 +24,25 @@ use Illuminate\Support\Facades\Route;
 //});
 
 
+Route::prefix('fairs')->group(function () {
+    Route::get('' , [FairsController::class,'index']);
+    Route::get('/fair-places' , [FairsController::class,'fairPlaces']);
+});
 
-Route::get('/fairs' , [FairsController::class,'index']);
-Route::get('/fair-places' , [FairsController::class,'fairPlaces']);
-Route::get('/invitation-cards/{fairId}' , [InvitationCardController::class,'index']);
+Route::prefix('invitation-cards')->group(function () {
+    Route::get('{fairId}' , [InvitationCardController::class,'index']);
+    Route::get('show/{Id}' , [InvitationCardController::class,'show']);
+});
 
 
-Route::get('/invitation-cards/show/{Id}' , [InvitationCardController::class,'show']);
+Route::prefix('paper-cards')->group(function () {
+    Route::get('{Id}/show' ,[PaperCardController::class , 'show']);
+});
+
+Route::prefix('special-sells')->group(function () {
+    Route::get('{Id}/show' ,[SpecialSellController::class , 'show']);
+});
+
+Route::prefix('deputize')->group(function () {
+    Route::get('{Id}/show' ,[DeputizeController::class , 'show']);
+});

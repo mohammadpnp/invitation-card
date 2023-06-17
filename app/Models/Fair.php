@@ -26,9 +26,9 @@ class Fair extends Model
         return $this->hasMany(WeddingCard::class , 'fair_id');
     }
 
-    public function place()
+    public function fairPlace()
     {
-       return $this->belongsTo(FairPlace::class,'fair_place_id');
+       return $this->belongsTo(FairPlace::class,'id');
     }
 
     public function scopeFilter($query, $request)

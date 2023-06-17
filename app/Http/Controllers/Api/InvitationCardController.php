@@ -35,16 +35,16 @@ class InvitationCardController extends Controller
 
     public function show($id)
     {
-        $invitationCard = WeddingCard::with('pictures','fair.place')->find($id);
+        $invitationCard = WeddingCard::with(['pictures','fair.fairPlace','poem'])->find($id);
         if(!$invitationCard) {
             return $this->failed('کارت دعوت یافت نشد');
         }
 
-        $poem = DB::table('poems')->inRandomOrder()->first();
+        $poem = $invitationCard->poem ?? Poem::inRandomOrder()->first();
 
         return $this->done([
             'InvitationCard' => new InvitationCardResource($invitationCard),
-            'poems' => new PoemResource($poem)
+            'poem' => new PoemResource($poem)
         ]);
     }
 }

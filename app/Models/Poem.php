@@ -12,6 +12,6 @@ class Poem extends Model
 
     public function getVoiceUrlAttribute()
     {
-        return $this->voice_url ? Storage::disk('poem_voices')->url($this->voice_url) : null;
+        return $this->voice ? Storage::disk('poem_voices')->url($this->voice) : null;
     }
 }

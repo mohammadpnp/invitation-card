@@ -28,6 +28,10 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->dropColumn('description');
+            $table->dropColumn('education');
+            $table->dropColumn('field_of_study');
+            $table->dropColumn('skills');
+            $table->dropColumn('company_name');
         });
     }
 };

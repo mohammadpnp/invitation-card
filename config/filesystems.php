@@ -95,6 +95,33 @@ return [
             'visibility' => 'public',
         ],
 
+        'paper_card_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/paper_card/pictures',
+            'url' => env('APP_URL') . '/uploads/paper_card/pictures',
+            'visibility' => 'public',
+        ],
+
+        'product_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/product/pictures',
+            'url' => env('APP_URL') . '/uploads/product/pictures',
+            'visibility' => 'public',
+        ],
+
+        'special_sell_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/special_sell/pictures',
+            'url' => env('APP_URL') . '/uploads/special_sell/pictures',
+            'visibility' => 'public',
+        ],
+
+        'deputize_pictures' => [
+            'driver' => 'local',
+            'root' => 'uploads/deputize/pictures',
+            'url' => env('APP_URL') . '/uploads/deputize/pictures',
+            'visibility' => 'public',
+        ],
     ],
 
     /*
