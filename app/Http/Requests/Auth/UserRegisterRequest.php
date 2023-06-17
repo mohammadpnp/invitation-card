@@ -19,13 +19,12 @@ class UserRegisterRequest extends FormRequest
             'last_name' => 'required|string',
             'mobile' => ['Required', 'Numeric', new CheckMobileNumber()],
             'email' => 'nullable|email',
-            'activities' => 'Nullable|Array',
-            'activities.*' => 'Nullable|exists:activities,id',
-            'fairs' => 'Nullable|Array',
-            'fairs.*' => 'Nullable|exists:fairs,id',
-            'companies' => 'Nullable|Array',
-            'companies.*' => 'Nullable|exists:company_members,id',
             'address' => 'Nullable|string',
+            'description' => 'Nullable|string',
+            'education' => 'Nullable|string',
+            'field_of_study' => 'Nullable|string',
+            'skill' => 'Nullable|string',
+            'company_name' => 'Nullable|string',
         ];
     }
 }
