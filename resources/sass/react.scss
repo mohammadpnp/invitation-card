@@ -1,0 +1,23 @@
+$primary_dark : rgb(57, 90, 94);
+
+body {
+	direction  : rtl;
+	text-align : right;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+	color   : $primary_dark;
+	opacity : 1; /* Firefox */
+}
+
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+	color : $primary_dark;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+	color : $primary_dark;
+}
+
+a {
+	text-decoration : none;
+}
