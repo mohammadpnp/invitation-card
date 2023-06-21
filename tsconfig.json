@@ -1,0 +1,44 @@
+{
+	"compilerOptions": {
+		"target"                          : "es5",
+		"lib"                             : [
+			"dom",
+			"dom.iterable",
+			"esnext"
+		],
+		"allowJs"                         : true,
+		"skipLibCheck"                    : true,
+		"esModuleInterop"                 : true,
+		"allowSyntheticDefaultImports"    : true,
+		"strict"                          : true,
+		"forceConsistentCasingInFileNames": true,
+		"noFallthroughCasesInSwitch"      : true,
+		"module"                          : "esnext",
+		"moduleResolution"                : "node",
+		"resolveJsonModule"               : true,
+		"isolatedModules"                 : true,
+		"noEmit"                          : true,
+		"noUnusedLocals"                  : false,
+		"noUnusedParameters"              : false,
+		"jsx"                             : "react",
+		"types"                           : [
+//			"user-agent-data-types",
+			"node",
+			"jest",
+//			"@types/jest"
+		],
+		"typeRoots"                       : [
+			"node_modules/@types",
+			"resources/js/Types"
+		]
+	},
+	"include"        : [
+		"resources/js",
+		"resources/js/index.d.ts"
+	],
+	"references"     : [
+		{
+			"path": "./tsconfig.node.json"
+		}
+	]
+}
