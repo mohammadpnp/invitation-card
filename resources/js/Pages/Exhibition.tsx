@@ -52,37 +52,37 @@ function refreshCompanies(): Companies[] {
 const companyExamples: Companies[] = [
 	{
 		title      : 'نمایشگاه بین المللی تهران',
-		description: 'نمایشگاه بین المللی تهران',
+		description: 'تهران، بزرگراه چمران',
 		image      : image_1,
 	},
 	{
 		title      : 'نمایشگاه بین المللی شهر آفتاب',
-		description: 'نمایشگاه بین المللی شهر آفتاب',
+		description: 'تهران، بزرگراه خلیج فارس',
 		image      : image_2,
 	},
 	{
 		title      : 'نمایشگاه ایران مال',
-		description: 'نمایشگاه ایران مال',
+		description: 'تهران، اتوبان شهید همت',
 		image      : image_3,
 	},
 	{
 		title      : 'نمایشگاه بین المللی مشهد',
-		description: 'نمایشگاه بین المللی مشهد',
+		description: 'مشهد، انتهای بلوار وكیل آباد',
 		image      : image_4,
 	},
 	{
 		title      : 'نمایشگاه بین المللی اصفهان',
-		description: 'نمایشگاه بین المللی اصفهان',
+		description: 'اصفهان، ب. کمربندی شرقی اصفهان',
 		image      : image_5,
 	},
 	{
 		title      : 'نمایشگاه بین المللی کیش',
-		description: 'نمایشگاه بین المللی کیش',
+		description: 'جزیره کیش، بلوار ساحل',
 		image      : image_6,
 	},
 	{
 		title      : 'سایر مراکز',
-		description: 'سایر مراکز',
+		description: 'اهواز، شیراز و ...',
 		image      : image_6,
 	},
 ];
@@ -180,7 +180,7 @@ export default function Exhibition(): ReactElement {
 	
 	return (
 		<ThemeProvider
-			theme={M3}
+			theme={M3()}
 			// theme={M3Lighter}
 		>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
@@ -191,8 +191,8 @@ export default function Exhibition(): ReactElement {
 				/>
 				
 				<Box component="main" sx={{
-					paddingTop   : '70px',
-					paddingBottom: '70px',
+					paddingTop   : 'calc(60px + 1rem)',
+					paddingBottom: 'calc(70px + 1rem)',
 					paddingX     : theme.spacing(3),
 				}}>
 					<Card sx={{marginBottom: 0}}>

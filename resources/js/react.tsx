@@ -8,6 +8,8 @@ import Exhibition     from './Pages/Exhibition';
 import ExhibitionInfo from './Pages/ExhibitionInfo';
 import ExhibitionSub  from './Pages/ExhibitionSub';
 import InvitationCard from './Pages/InvitationCard';
+import InvitationCardIntro from './Pages/InvitationCardIntro';
+import InvitationCardReply from './Pages/InvitationCardReply';
 import InvitationCards from './Pages/InvitationCards';
 import Map            from './Pages/Map';
 import Sale from './Pages/Sale';
@@ -35,9 +37,21 @@ const router = createBrowserRouter(
 			),
 		},
 		{
+			path   : 'invitation-card-intro',
+			element: (
+				<InvitationCardIntro />
+			),
+		},
+		{
 			path   : 'invitation-card',
 			element: (
 				<InvitationCard />
+			),
+		},
+		{
+			path   : 'invitation-card-reply',
+			element: (
+				<InvitationCardReply />
 			),
 		},
 		{

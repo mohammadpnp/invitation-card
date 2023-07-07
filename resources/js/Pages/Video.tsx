@@ -13,7 +13,7 @@ import {
 	Telegram, TrackChangesRounded,
 	WhatsApp,
 	YouTube,
-} from '@mui/icons-material';
+}                     from '@mui/icons-material';
 import CssBaseline    from '@mui/material/CssBaseline';
 import List           from '@mui/material/List';
 import ListItem       from '@mui/material/ListItem';
@@ -22,7 +22,7 @@ import {
 	ThemeProvider,
 }                     from '@mui/material';
 import Box            from '@mui/material/Box';
-import {Link}         from 'react-router-dom';
+import {useNavigate}         from 'react-router-dom';
 import AppBar         from '../Components/AppBar';
 import NavigationBar  from '../Components/NavigationBar';
 import theme          from '../Themes/M3';
@@ -48,14 +48,17 @@ export default function Video(): ReactElement {
 		
 	}, [video, setVideos]);
 	
+	// navigate
+	const navigate = useNavigate();
+	
 	return (
 		<ThemeProvider theme={theme}>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
 				<CssBaseline />
-				<AppBar label="ویدئو" />
+				<AppBar label="ویدئو" back={true} />
 				<Box component="main" sx={{
-					paddingTop   : '70px',
-					paddingBottom: '80px',
+					paddingTop   : 'calc(60px + 1rem)',
+					paddingBottom: 'calc(70px + 1rem)',
 					paddingX     : theme.spacing(3),
 					display      : 'flex',
 					flexDirection: 'column',
@@ -172,14 +175,16 @@ export default function Video(): ReactElement {
 							].map(
 								({text, icon, link}, index) => (
 									<ListItem key={index} disablePadding>
-										<Link to={link}>
-											<ListItemButton disableRipple>
-												<ListItemIcon>
-													{icon}
-												</ListItemIcon>
-												<ListItemText primary={text} />
-											</ListItemButton>
-										</Link>
+										<ListItemButton
+											disableRipple
+											onClick={() => {
+												navigate(link);
+											}}>
+											<ListItemIcon>
+												{icon}
+											</ListItemIcon>
+											<ListItemText primary={text} />
+										</ListItemButton>
 									</ListItem>
 								),
 							)

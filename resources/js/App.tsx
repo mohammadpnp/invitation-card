@@ -4,7 +4,7 @@ import Box             from '@mui/material/Box';
 import CssBaseline     from '@mui/material/CssBaseline';
 import AppBar          from './Components/AppBar';
 import NavigationBar   from './Components/NavigationBar';
-import M3              from './Themes/M3';
+import {M3}            from './Themes/M3';
 
 function refreshCompanies(): Companies[] {
 	const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
@@ -36,7 +36,7 @@ export default function App() {
 	const ref = React.useRef<HTMLDivElement>(null);
 	
 	return (
-		<ThemeProvider theme={M3}>
+		<ThemeProvider theme={M3()}>
 			<Box sx={{pb: 7}} ref={ref}>
 				<AppBar />
 				<CssBaseline />

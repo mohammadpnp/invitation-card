@@ -1,7 +1,7 @@
 import Typography               from '@mui/material/Typography';
-import {AxiosResponse}          from 'axios';
-import {Fragment, ReactElement} from 'react';
-import * as React               from 'react';
+import {AxiosResponse}                    from 'axios';
+import {ReactElement, useState} from 'react';
+import * as React                         from 'react';
 import {
 	CheckRounded, CircleRounded,
 }                               from '@mui/icons-material';
@@ -12,16 +12,17 @@ import {
 	Chip,
 	Unstable_Grid2 as Grid,
 	ThemeProvider, Divider,
-}                               from '@mui/material';
-import {styled}                 from '@mui/material/styles';
-import Box                      from '@mui/material/Box';
-import CssBaseline              from '@mui/material/CssBaseline';
-import AppBar                   from '../Components/AppBar';
-import NavigationBar            from '../Components/NavigationBar';
-import Helper                   from '../Helpers/Helper';
-import theme                    from '../Themes/M3';
-import map                      from '../statics/map.jpg';
-import InvitationCardType       from '../Types/InvitationCard';
+}                                         from '@mui/material';
+import {styled}                           from '@mui/material/styles';
+import Box                                from '@mui/material/Box';
+import CssBaseline                        from '@mui/material/CssBaseline';
+import {useLocation}                      from 'react-router-dom';
+import AppBar                             from '../Components/AppBar';
+import NavigationBar                      from '../Components/NavigationBar';
+import Helper                     from '../Helpers/Helper';
+import theme, {M3, PaletteColors} from '../Themes/M3';
+import map                        from '../statics/map.jpg';
+import InvitationCardType                 from '../Types/InvitationCard';
 
 const getRandomInteger = (max: number) => Math.floor(Math.random() * Math.floor(max));
 
@@ -73,6 +74,9 @@ export default function Map(): ReactElement {
 	const [chip_sub, setChipSub]                 = React.useState(-1);
 	const [anchorElement, setAnchorElement]      = React.useState<null | HTMLElement>(null);
 	const ref                                    = React.useRef<HTMLDivElement>(null);
+	
+	const location = useLocation();
+	const [palette, setPalette]                  = useState<PaletteColors>(location.state?.palette);
 	
 	const open       = Boolean(anchorElement);
 	const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -179,10 +183,10 @@ export default function Map(): ReactElement {
 	];
 	
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={M3(palette)}>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
 				<CssBaseline />
-				<AppBar label="نقشه" />
+				<AppBar label="نقشه" back={true} />
 				<Box component="main" sx={{paddingTop: '70px', paddingBottom: '70px', paddingX: theme.spacing(3)}}>
 					<Card sx={{marginBottom: 0}}>
 						<CardMedia image={map} sx={{width: '100%', height: '400px'}} />

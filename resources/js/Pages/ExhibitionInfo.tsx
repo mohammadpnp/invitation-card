@@ -147,7 +147,7 @@ export default function ExhibitionInfo(): ReactElement {
 	
 	return (
 		<ThemeProvider
-			theme={M3}
+			theme={M3()}
 			// theme={M3Lighter}
 		>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
@@ -155,11 +155,12 @@ export default function ExhibitionInfo(): ReactElement {
 				<AppBar
 					//variant="lighter"
 					label="نمایشگاه‌ها"
+					back={true}
 				/>
 				
 				<Box component="main" sx={{
-					paddingTop   : '70px',
-					paddingBottom: '70px',
+					paddingTop   : 'calc(60px + 1rem)',
+					paddingBottom: 'calc(70px + 1rem)',
 					paddingX     : theme.spacing(3),
 				}}>
 					<Card sx={{marginBottom: 0}}>

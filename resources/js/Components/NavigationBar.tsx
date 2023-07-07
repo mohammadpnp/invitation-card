@@ -1,3 +1,4 @@
+import {ReactNode}              from 'react';
 import * as React               from 'react';
 import {OverridableStringUnion} from '@mui/types';
 import {
@@ -13,7 +14,7 @@ import BottomNavigationAction   from '@mui/material/BottomNavigationAction';
 
 interface Action {
 	label: string,
-	icon: Element,
+	icon: ReactNode,
 }
 
 interface Properties {
@@ -22,34 +23,38 @@ interface Properties {
 }
 
 export default function NavigationBar(properties: Properties) {
-	const [value, setValue] = React.useState(2);
+	const [value, setValue]     = React.useState(2);
 	const [actions, setActions] = React.useState(
-		[
-			{
-				label: 'راهنمای آنلاین',
-				icon : <HelpOutlineRounded />,
-			},
-			{
-				label: 'اخبار ویژه',
-				icon : <NewspaperRounded />,
-			},
-			{
-				label: 'نیازمندی‌ها و استعلام',
-				icon : <VolunteerActivismRounded />,
-			},
-			{
-				label: 'درخواست از شما، پیگیری از ما',
-				icon : <ChecklistRtlRounded />,
-			},
-			{
-				label: 'قرعه‌کشی شرکت‌ها',
-				icon : <TrackChangesRounded />,
-			},
-			{
-				label: 'مسابقات جایزه‌دار',
-				icon : <RedeemRounded />,
-			},
-		],
+		typeof properties.actions !== 'undefined'
+			?
+			properties.actions
+			:
+			[
+				{
+					label: 'راهنمای آنلاین',
+					icon : <HelpOutlineRounded />,
+				},
+				{
+					label: 'اخبار ویژه',
+					icon : <NewspaperRounded />,
+				},
+				{
+					label: 'نیازمندی‌ها و استعلام',
+					icon : <VolunteerActivismRounded />,
+				},
+				{
+					label: 'درخواست از شما، پیگیری از ما',
+					icon : <ChecklistRtlRounded />,
+				},
+				{
+					label: 'قرعه‌کشی شرکت‌ها',
+					icon : <TrackChangesRounded />,
+				},
+				{
+					label: 'مسابقات جایزه‌دار',
+					icon : <RedeemRounded />,
+				},
+			],
 	);
 	
 	return (
@@ -62,9 +67,12 @@ export default function NavigationBar(properties: Properties) {
 			}}
 		>
 			{
-				actions.map((properties, index) => {
-					return <BottomNavigationAction key={index} {...properties} />
-				})
+				actions ?
+					actions.map((action_properties, index) => {
+						return <BottomNavigationAction key={index} {...action_properties} />
+					})
+					:
+					null
 			}
 		</BottomNavigation>
 	);

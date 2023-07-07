@@ -15,11 +15,8 @@ Homestead.json
 Homestead.yaml
 auth.json
 npm-debug.log
-varn.lock
+yarn.lock
 yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/uploads
-.DS_Store
-

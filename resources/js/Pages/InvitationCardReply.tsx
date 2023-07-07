@@ -1,22 +1,25 @@
+import BottomNavigation   from '@mui/material/BottomNavigation';
+import Grid               from '@mui/material/Unstable_Grid2';
 import {AxiosResponse}          from 'axios';
-import {ReactElement} from 'react';
+import {ReactElement, useState} from 'react';
 import * as React               from 'react';
 import {
 	ContactPhoneRounded,
 	LocationOn,
-} from '@mui/icons-material';
+}                               from '@mui/icons-material';
 import {
 	Card,
 	CardMedia,
-	ThemeProvider, CardContent, Button,
+	ThemeProvider, CardContent, Button, Container,
 }                               from '@mui/material';
 import Box                      from '@mui/material/Box';
 import CssBaseline              from '@mui/material/CssBaseline';
+import {useLocation}            from 'react-router-dom';
 import AppBar                   from '../Components/AppBar';
 import NavigationBar            from '../Components/NavigationBar';
-import Helper                   from '../Helpers/Helper';
-import theme                    from '../Themes/M3';
-import map                      from '../statics/map.jpg';
+import Helper                     from '../Helpers/Helper';
+import theme, {M3, PaletteColors} from '../Themes/M3';
+import map                        from '../statics/map.jpg';
 import InvitationCardType       from '../Types/InvitationCard';
 
 const getRandomInteger = (max: number) => Math.floor(Math.random() * Math.floor(max));
@@ -48,15 +51,19 @@ const invitation_card_examples: readonly InvitationCardType[] = [
 	},
 ];
 
-export default function SaleReply(): ReactElement {
+export default function InvitationCardReply(): ReactElement {
 	const [invitation_cards, setInvitationCards] = React.useState(() => fetchInvitationCards());
 	const [invitation_card, setInvitationCard]   = React.useState(0);
+	const [navigation_bar, setNavigationBar]     = React.useState(true);
 	const [chip, setChip]                        = React.useState(-1);
 	const [chip_sub, setChipSub]                 = React.useState(-1);
-	const [anchorElement, setAnchorElement]      = React.useState<null | HTMLElement>(null);
+	const [anchor_element, setAnchorElement]      = React.useState<null | HTMLElement>(null);
 	const ref                                    = React.useRef<HTMLDivElement>(null);
 	
-	const open       = Boolean(anchorElement);
+	const location = useLocation();
+	const [palette, setPalette]                  = useState<PaletteColors>(location.state?.palette);
+	
+	const open       = Boolean(anchor_element);
 	const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElement(event.currentTarget);
 	};
@@ -79,10 +86,10 @@ export default function SaleReply(): ReactElement {
 	];
 	
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={M3(palette)}>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
 				<CssBaseline />
-				<AppBar label="نقشه" back={true} />
+				<AppBar label="نقشه" search={false} back={true} />
 				<Box component="main" sx={{
 					display      : 'flex',
 					flexDirection: 'column',
@@ -115,7 +122,40 @@ export default function SaleReply(): ReactElement {
 						</Box>
 					</Box>
 					
-					<NavigationBar />
+					<BottomNavigation sx={{
+						backgroundColor: (theme) => theme.palette.grey[50],
+						borderTop      : (theme) => `1px solid ${theme.palette.grey[400]}`,
+						
+						transition: (theme) => theme.transitions.create(['bottom']),
+						bottom    : navigation_bar ? 0 : -70,
+					}}>
+						<Container maxWidth="md">
+							<Grid
+								container
+								justifyContent="space-between"
+								alignItems="center"
+								sx={{height: 70}}>
+								<Grid sx={{flexGrow: 1}}>
+									حضور می‌یابید؟
+								</Grid>
+								<Grid onClick={() => {
+									setNavigationBar(false);
+								}}>
+									<Button variant="text">
+										بله
+									</Button>
+									<Button variant="text">
+										خیر
+									</Button>
+									<Button variant="text">
+										شاید
+									</Button>
+								</Grid>
+							</Grid>
+						</Container>
+					</BottomNavigation>
+					
+					{/*<NavigationBar />*/}
 				</Box>
 			</Box>
 		</ThemeProvider>

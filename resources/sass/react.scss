@@ -1,4 +1,27 @@
-$primary_dark : rgb(57, 90, 94);
+$primary-main      : #26c6da;
+$primary-dark      : #21393c;
+
+$link-color        : $primary-main;
+$link-hover-color  : $primary-dark;
+
+$placeholder-color : $primary-dark;
+
+@font-face {
+	font-family  : IranSANS;
+	font-display : swap;
+	src          : local("IranSANS"), url(../font/IRANSansWeb.ttf) format("truetype"), url(../font/IRANSansWeb.woff) format("woff"), url(../font/IRANSansWeb.woff2) format("woff2"), url(../font/IRANSansWeb.eot?#iefix) format("embedded-opentype");
+	font-weight  : 400;
+	font-style   : normal
+}
+
+@font-face {
+	font-family  : IranSANS;
+	font-display : swap;
+	src          : url(../font/IRANSansWeb_Bold.ttf) format("truetype"), url(../font/IRANSansWeb_Bold.woff) format("woff"), url(../font/IRANSansWeb_Bold.woff2) format("woff2"), url(../font/IRANSansWeb_Bold.eot?#iefix) format("embedded-opentype");
+	font-weight  : 700;
+	font-style   : normal;
+	font-display : swap;
+}
 
 body {
 	direction  : rtl;
@@ -6,18 +29,23 @@ body {
 }
 
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-	color   : $primary_dark;
+	color   : $placeholder-color;
 	opacity : 1; /* Firefox */
 }
 
 :-ms-input-placeholder { /* Internet Explorer 10-11 */
-	color : $primary_dark;
+	color : $placeholder-color;
 }
 
 ::-ms-input-placeholder { /* Microsoft Edge */
-	color : $primary_dark;
+	color : $placeholder-color;
 }
 
 a {
 	text-decoration : none;
+	color           : $link-color;
+}
+
+a:hover {
+	color : $link-hover-color;
 }

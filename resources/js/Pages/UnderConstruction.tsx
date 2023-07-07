@@ -42,9 +42,9 @@ export default function UnderConstruction(): ReactElement {
 				<CssBaseline />
 				<Box component="main" sx={{
 					display: 'flex',
-					padding: theme.spacing('70px', 3),
+					padding: theme.spacing('calc(60px + 1rem)', 3),
 				}}>
-					<AppBar />
+					<AppBar back={true} />
 					<Box sx={{
 						position : 'absolute',
 						top      : '50%',

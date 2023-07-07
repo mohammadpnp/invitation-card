@@ -169,7 +169,7 @@ export default function ExhibitionSub(): ReactElement {
 	
 	return (
 		<ThemeProvider
-			theme={M3}
+			theme={M3()}
 			//theme={M3Lighter}
 		>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
@@ -177,10 +177,11 @@ export default function ExhibitionSub(): ReactElement {
 				<AppBar
 					label="نمایشگاه‌ها"
 					// variant="lighter"
+					back={true}
 				/>
 				<Box component="main" sx={{
-					paddingTop   : '70px',
-					paddingBottom: '70px',
+					paddingTop   : 'calc(60px + 1rem)',
+					paddingBottom: 'calc(70px + 1rem)',
 					paddingX     : theme.spacing(3),
 				}}>
 					<Card sx={{marginBottom: 0}}>
@@ -249,12 +250,33 @@ export default function ExhibitionSub(): ReactElement {
 									</Box>
 								</Link>
 							</CardContent>
-							<CardActions sx={{padding: theme.spacing(3)}}>
-								<Box sx={{display: 'flex', alignItems: 'center', gap: theme.spacing(2), margin: 0}}>
+							<CardActions sx={{
+								padding: theme.spacing(3),
+							}}>
+								<Box sx={{
+									display      : 'flex',
+									flexDirection: {
+										xs: 'column',
+										sm: 'row',
+									},
+									alignItems   : {
+										xs: 'right',
+										sm: 'center',
+									},
+									gap          : theme.spacing(2),
+									margin       : 0,
+									
+									'.dash' : {
+										display: {
+											xs: 'none',
+											sm: 'inline-block'
+										}
+									}
+								}}>
 									<Typography>
 										تاریخ شروع: {Helper.formatDate(start_at)}
 									</Typography>
-									<span>-</span>
+									<span className="dash">-</span>
 									<Typography>
 										تاریخ پایان: {Helper.formatDate(end_at)}
 									</Typography>

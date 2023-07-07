@@ -28,7 +28,7 @@ import AppBar             from '../Components/AppBar';
 import NavigationBar      from '../Components/NavigationBar';
 import Menu               from '@mui/material/Menu';
 import Helper             from '../Helpers/Helper';
-import theme              from '../Themes/M3';
+import theme, {M3}              from '../Themes/M3';
 import slide_1            from '../statics/agrofood.jpg';
 import InvitationCardType from '../Types/InvitationCard';
 
@@ -166,12 +166,13 @@ export default function InvitationCards(): ReactElement {
 	];
 	
 	return (
-		<ThemeProvider theme={theme}>
+		<ThemeProvider theme={M3()}>
 			<Box sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
 				<CssBaseline />
-				<AppBar label="دعوتنامه‌ها" />
+				<AppBar label="دعوتنامه‌ها" back={true} />
 				<Box component="main" sx={{
-					paddingTop: '70px', paddingBottom: '70px', paddingX: theme.spacing(3)}}>
+					padding: theme.spacing('calc(60px + 1rem)', 3),
+				}}>
 					<Card sx={{marginBottom: 0}}>
 						<CardMedia image={slide_1} sx={{width: '100%', height: '300px'}} />
 					</Card>
@@ -212,7 +213,7 @@ export default function InvitationCards(): ReactElement {
 						<Card key={index}>
 							<CardContent sx={{display: 'flex', paddingBottom: 0}}>
 								<Box>
-									<Link to="/invitation-card">
+									<Link to="/invitation-card-intro">
 										<Typography gutterBottom variant="h6" component="h6" color="primary.contrastText">
 											{title}
 										</Typography>
