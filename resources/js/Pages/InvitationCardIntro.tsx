@@ -304,16 +304,16 @@ const templates: Templates = {
 		},
 		items         : [
 			{
-				transform: 'translate(25%, -10%) rotate(45deg) scale(0.7)',
+				transform: 'translate(15%, -17%) rotate(45deg) scale(0.7)',
 			},
 			{
-				transform: 'translate(75%, 40%) rotate(45deg) scale(0.7)',
+				transform: 'translate(75%, 30%) rotate(45deg) scale(0.7)',
 			},
 			{
-				transform: 'translate(-25%, 40%) rotate(45deg) scale(0.7)',
+				transform: 'translate(-25%, 50%) rotate(45deg) scale(0.7)',
 			},
 			{
-				transform: 'translate(25%, 90%) rotate(45deg) scale(0.7)',
+				transform: 'translate(35%, 90%) rotate(45deg) scale(0.6)',
 			},
 		],
 		image         : {
@@ -394,9 +394,9 @@ function getSxProperties(key: string): SxProps {
 	let templates_default: SxProps | SxProps[]  = templates.default[keys[0] as keyof Template];
 	let templates_template: SxProps | SxProps[] = templates[template][keys[0] as keyof Template];
 	
-	if (keys.length > 1) {
-		templates_default  = templates_default[keys[1] as number];
-		templates_template = templates_template[keys[1] as number];
+	if (Array.isArray(templates_default)) {
+		templates_default  = templates_default[keys[1] as number] as SxProps;
+		templates_template = templates_template[keys[1] as number] as SxProps;
 	}
 	
 	return Object.assign(templates_default, templates_template) as SxProps;

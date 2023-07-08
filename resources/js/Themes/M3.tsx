@@ -488,7 +488,7 @@ export const M3 = (palette?: PaletteColors) => {
 						right          : 0,
 						bottom         : 0,
 						left           : 0,
-						zIndex         : 2,
+						zIndex         : 20,
 						height         : 'auto',
 						minHeight      : 70,
 						alignItems     : 'baseline',

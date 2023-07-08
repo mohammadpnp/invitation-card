@@ -15,6 +15,7 @@ import {
 }                                                      from '@mui/material';
 import Typography                                      from '@mui/material/Typography';
 import Box                                             from '@mui/material/Box';
+import {useLocation}                                   from 'react-router-dom';
 import AppBar                                          from '../Components/AppBar';
 import NavigationBar                                   from '../Components/NavigationBar';
 import theme, {getPaletteFromImage, M3, PaletteColors} from '../Themes/M3';
@@ -36,11 +37,14 @@ import shooshool from '../statics/shooshool.png';
 export default function Sale(): ReactElement {
 	const [invitation_cards, setInvitationCards] = React.useState(() => []);
 	const [invitation_card, setInvitationCard]   = React.useState(0);
-	const [anchorElement, setAnchorElement]      = React.useState<null | HTMLElement>(null);
+	const [anchor_element, setAnchorElement]     = React.useState<null | HTMLElement>(null);
 	const ref                                    = React.useRef<HTMLDivElement>(null);
-	const [palette, setPalette]                  = useState<PaletteColors>(location.state?.palette);
+	const [popup, setPopup]                      = useState<?number>(null);
 	
-	const open       = Boolean(anchorElement);
+	const location              = useLocation();
+	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
+	
+	const open       = Boolean(anchor_element);
 	const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
 		setAnchorElement(event.currentTarget);
 	};
@@ -160,50 +164,91 @@ export default function Sale(): ReactElement {
 											<Grid
 												xs={12}
 												sm={6}
-												className={(index || index % 3 || index % 4) ? 'rtl' : 'ltr'}
+												className={`${index === popup ? 'popup' : ''} ${index % 2 ? 'even' : 'odd'} ${Math.floor((index / 2) % 2) ? 'double-even' : 'double-odd'}`}
 												sx={{
 													textAlign: 'left',
 													position : 'relative',
 													display  : 'flex',
 													
-													'&.rtl': {
+													'&.double-even': {
+														'.diamond': {
+															right        : '10%',
+															flexDirection: 'row-reverse',
+														},
+														
 														'.title': {
-															marginRight: 'auto',
+															left: '10%',
+														},
+														
+														'.description': {
+															left: '40%',
+														},
+														
+														'&.popup': {
+															'.diamond': {
+																right: 0,
+															},
+															
+															'.title': {
+																right: 'auto',
+																left : '38%',
+															},
 														},
 													},
-													'&.ltr': {
+													'&.odd'        : {
+														borderRight: (theme) => `1px solid ${theme.palette.grey[400]}`,
+													},
+													'&.even'       : {},
+													'&.double-odd' : {
+														'.diamond': {
+															left: '10%',
+														},
+														
 														'.title': {
-															marginLeft: 'auto',
+															left: '40%',
+														},
+														
+														'.description': {
+															left: '40%',
+														},
+														
+														'&.popup': {
+															'.diamond': {
+																left: 0,
+															},
+															
+															'.title': {
+																left: '35%',
+															},
 														},
 													},
 													
 													'&:not(.popup)': {
 														'.description': {
-															transform: 'scale(0)',
+															maxHeight: 0,
 															display  : 'none',
 														},
 													},
 													
 													'&.popup': {
+														zIndex: items.length,
+														
 														'.diamond': {
 															'&::before': {
-																boxShadow   : (theme) => `3px 5px 8px 6px ${theme.palette.grey[400]} inset`,
-																borderRadius: '3rem',
+																boxShadow   : (theme) => `3px 5px 8px 6px ${theme.palette.grey[300]}`,
+																borderRadius: '2rem',
 																position    : 'absolute',
 																transform   : 'rotate(0)',
 															},
 															transform  : 'scale(1)',
-															position   : 'absolute',
 															zIndex     : 2,
 															width      : '100%',
-															display    : 'flex',
 															height     : {
 																xs: 100,
 																sm: 400,
 															},
 															
 															'.image': {
-																flex     : '0 0 auto',
 																width    : '40%',
 																maxHeight: {
 																	xs: 100,
@@ -215,21 +260,42 @@ export default function Sale(): ReactElement {
 															},
 															
 															'.description': {
-																transform: 'scale(1)',
-																flex     : '0 0 auto',
-																width    : '60%',
+																top            : '150px', // title height
+																maxHeight      : '500px',
+																transformOrigin: '0 0',
+																width          : '60%',
 															},
+														},
+														
+														'.title': {
+															top: '20%',
 														},
 													},
 													
 													'.diamond': {
+														position : 'absolute',
+														zIndex   : 1,
+														top      : 0,
+														transform: 'scale(0.7)',
+														width    : '20%',
+														height   : 100,
+														
+														transition: (theme) => theme.transitions.create(
+															[
+																'left',
+																'width',
+																'height',
+																'transform',
+															],
+														),
+														
 														'&::before': {
 															content        : '""',
 															backgroundColor: (theme) => theme.palette.grey[50],
-															boxShadow      : (theme) => `-3px 5px 8px 6px ${theme.palette.grey[400]} inset`,
+															boxShadow      : (theme) => `-3px -3px 2px rgba(0, 0, 0, 0.1)`,
 															borderRadius   : '1rem',
 															position       : 'absolute',
-															zIndex         : 0,
+															zIndex         : 2,
 															top            : 0,
 															left           : 0,
 															width          : '100%',
@@ -240,30 +306,41 @@ export default function Sale(): ReactElement {
 																	'width',
 																	'transform',
 																	'border-radius',
+																	'box-shadow',
 																],
 															),
 														},
-														transform  : 'scale(0.7)',
-														width      : '20%',
-														height     : 100,
-														transition : (theme) => theme.transitions.create(
-															[
-																'width',
-																'transform',
-															],
-														),
-														
-														'.image': {
+														'.image'   : {
+															zIndex    : 2,
 															position  : 'relative',
 															left      : '50%',
 															width     : '80%',
 															transform : 'translate(-50%, -40%)',
-															transition: (theme) => theme.transitions.create(['width', 'transform']),
+															transition: (theme) => theme.transitions.create(
+																[
+																	'right',
+																	'left',
+																	'width',
+																	'transform',
+																],
+															),
 														},
 														
 														'.description': {
-															paddingTop: (theme) => theme.spacing(4),
-															transition: (theme) => theme.transitions.create(['transform']),
+															position     : 'absolute',
+															top          : 0,
+															transition   : (theme) => theme.transitions.create(
+																[
+																	'max-height',
+																	'top',
+																	'left',
+																],
+															),
+															display      : 'flex',
+															flexDirection: 'column',
+															gap          : (theme) => theme.spacing(3),
+															zIndex       : 3,
+															overflow     : 'hidden',
 														},
 														
 														'.features': {
@@ -273,20 +350,20 @@ export default function Sale(): ReactElement {
 														},
 													},
 													'.title'  : {
-														width  : '50%',
-														padding: (theme) => theme.spacing(3),
+														position  : 'absolute',
+														zIndex    : 3,
+														top       : 0,
+														padding   : (theme) => theme.spacing(3),
+														transition: (theme) => theme.transitions.create(['top', 'right', 'left']),
 													},
 												}}
-												onClick={(event) => {
-													event.currentTarget.classList.toggle('popup');
+												onClick={() => {
+													setPopup(popup !== index ? index : null);
 												}}>
 												<Box className="diamond">
 													<img src={image} alt="" className="image" />
 													
 													<div className="description">
-														<Typography
-															dangerouslySetInnerHTML={{__html: title.join('<br/>')}}></Typography>
-														
 														<Typography variant="h6" fontWeight={600}>Features & Specifications</Typography>
 														<ul className="features">
 															{
