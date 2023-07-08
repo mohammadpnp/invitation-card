@@ -7,7 +7,6 @@ import BottomNavigation                            from '@mui/material/BottomNav
 import CssBaseline                                 from '@mui/material/CssBaseline';
 import {keyframes, styled}                         from '@mui/material/styles';
 import Grid                                        from '@mui/material/Unstable_Grid2';
-import {SxProps}                                   from '@mui/system';
 import {SystemCssProperties}                       from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {ReactElement, useEffect, useRef, useState} from 'react';
 import * as React                                  from 'react';

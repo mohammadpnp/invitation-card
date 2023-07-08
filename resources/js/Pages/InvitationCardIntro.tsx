@@ -2,10 +2,10 @@ import CssBaseline                         from '@mui/material/CssBaseline';
 import {keyframes, styled}                 from '@mui/material/styles';
 import Typography                          from '@mui/material/Typography';
 import Grid                                from '@mui/material/Unstable_Grid2';
-import {SxProps}                           from '@mui/system';
 import {ReactElement, useEffect, useState} from 'react';
 import * as React                          from 'react';
 import {
+	CSSInterpolation, SxProps,
 	ThemeProvider,
 }                                          from '@mui/material';
 import Box                                 from '@mui/material/Box';
@@ -29,7 +29,7 @@ import intro_3 from '../statics/intro_3.jpg';
 import intro_4 from '../statics/intro_4.jpg';
 
 // keyframes
-const getTrapeziumAnimation = ({innerWidth, innerHeight}) => keyframes`
+const getTrapeziumAnimation = ({innerWidth, innerHeight}: typeof window) => keyframes`
   0%, 100% {
     border-top: 0 solid transparent;
     border-right-width: ${innerWidth}px;
@@ -69,15 +69,15 @@ const Trapezium = styled(Box)(({theme}) => ({
 	height          : '100%',
 }));
 
-const LogoWrapper = styled(Box)(() => ({
-	position : 'fixed',
-	minWidth : '20%',
-	maxWidth : '30%',
-	bottom   : '10%',
-	left     : '10%',
-	opacity  : 0,
-	animation: `0.5s ${logo_fade} 0.75s linear forwards`,
-}));
+const LogoWrapper = styled(Box)({
+	                                position : 'fixed',
+	                                minWidth : '20%',
+	                                maxWidth : '30%',
+	                                bottom   : '10%',
+	                                left     : '10%',
+	                                opacity  : 0,
+	                                animation: `0.5s ${logo_fade} 0.75s linear forwards`,
+                                });
 
 const Logo = styled('img')(() => ({
 	width: '100%',
@@ -94,11 +94,11 @@ const images_fade = keyframes`
 `;
 
 interface Template {
-	images_wrapper: SxProps,
-	item: SxProps,
-	items: SxProps[],
-	image: SxProps,
-	images: SxProps[],
+	images_wrapper: CSSInterpolation,
+	item: CSSInterpolation,
+	items: CSSInterpolation[],
+	image: CSSInterpolation,
+	images: CSSInterpolation[],
 };
 
 interface Templates {
@@ -388,37 +388,32 @@ const keys: (keyof Templates)[] = Object.keys(templates);
 
 const template: keyof Templates = keys[Math.ceil(Math.random() * keys.length)]; // ceil for skip first (default)
 
-function getSxProperties(key: string): SxProps {
+function getSxProperties(key: string): CSSInterpolation {
 	const keys: string[] = key.split('.');
 	
-	let templates_default: SxProps | SxProps[]  = templates.default[keys[0] as keyof Template];
-	let templates_template: SxProps | SxProps[] = templates[template][keys[0] as keyof Template];
+	let templates_default: CSSInterpolation | CSSInterpolation[]  = templates.default[keys[0] as keyof Template];
+	let templates_template: CSSInterpolation | CSSInterpolation[] = templates[template][keys[0] as keyof Template];
 	
-	if (Array.isArray(templates_default)) {
-		templates_default  = templates_default[keys[1] as number] as SxProps;
-		templates_template = templates_template[keys[1] as number] as SxProps;
+	if (Array.isArray(templates_default) && Array.isArray(templates_template)) {
+		templates_default  = templates_default[Number(keys[1])] as CSSInterpolation;
+		templates_template = templates_template[Number(keys[1])] as CSSInterpolation;
 	}
 	
-	return Object.assign(templates_default, templates_template) as SxProps;
+	return Object.assign(templates_default as object, templates_template as object) as CSSInterpolation;
 }
 
 // @ts-ignore
-const ImagesWrapper = styled(Box)(() => getSxProperties('images_wrapper'));
+const ImagesWrapper = styled(Box)(getSxProperties('images_wrapper'));
 
-const Item = styled(Box)(() => getSxProperties('item'));
+const Item = styled(Box)(getSxProperties('item'));
 
-const Image = styled('img')(() => getSxProperties('image'));
+const Image = styled('img')(getSxProperties('image'));
 
 export default function InvitationCardIntro(): ReactElement {
 	const [invitation_cards, setInvitationCards] = useState(() => []);
 	const [invitation_card, setInvitationCard]   = useState(0);
 	const [palette, setPalette]                  = useState<PaletteColors>();
-	const [dimensions, setDimensions]            = useState(
-		{
-			innerWidth : window.innerWidth,
-			innerHeight: window.innerHeight,
-		},
-	)
+	const [dimensions, setDimensions]            = useState(window)
 	
 	useEffect(() => {
 		let timeout: NodeJS.Timeout;
@@ -429,12 +424,7 @@ export default function InvitationCardIntro(): ReactElement {
 				clearTimeout(timeout);
 				
 				timeout = setTimeout(() => {
-					setDimensions(
-						{
-							innerWidth : window.innerWidth,
-							innerHeight: window.innerHeight,
-						},
-					);
+					setDimensions(window);
 				}, 100);
 			},
 		);
@@ -490,11 +480,11 @@ export default function InvitationCardIntro(): ReactElement {
 						images.map(
 							(image, key) => (
 								typeof templates[template].items[key] !== 'undefined' ?
-									<Item key={key} sx={getSxProperties(`items.${key}`)}>
+									<Item key={key} sx={getSxProperties(`items.${key}`) as SxProps}>
 										<Image
 											src={image}
 											alt=""
-											sx={getSxProperties(`images.${key}`)}
+											sx={getSxProperties(`images.${key}`) as SxProps}
 										/>
 									</Item>
 									:

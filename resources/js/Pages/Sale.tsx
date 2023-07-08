@@ -39,7 +39,7 @@ export default function Sale(): ReactElement {
 	const [invitation_card, setInvitationCard]   = React.useState(0);
 	const [anchor_element, setAnchorElement]     = React.useState<null | HTMLElement>(null);
 	const ref                                    = React.useRef<HTMLDivElement>(null);
-	const [popup, setPopup]                      = useState<?number>(null);
+	const [popup, setPopup]                      = useState<number | null>(null);
 	
 	const location              = useLocation();
 	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
