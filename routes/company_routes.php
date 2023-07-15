@@ -18,7 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+// React
+Route::get('/', function () {return view('react');});
 
+// Companies
 Route::middleware('auth')->group(function () {
 
     Route::prefix('invitation-card')->group(function () {
@@ -48,7 +51,7 @@ Route::middleware('auth')->group(function () {
 
 Route::middleware('guest')->group(function () {
 
-    Route::get('/', function () {return view('welcome');});
+//    Route::get('/', function () {return view('welcome');});
 
     Route::get('/login', [CompanyAuthController::class, 'create'])->name('login.create');
     Route::post('/login', [CompanyAuthController::class, 'store'])->name('login.store');

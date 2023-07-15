@@ -13,6 +13,7 @@ class FairsController extends Controller
 {
     public function index(Request $request)
     {
+
         $fairs = Fair::filter($request)
             ->with('fairPlace')
             ->orderByDesc('id')
