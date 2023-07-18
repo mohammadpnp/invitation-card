@@ -14,6 +14,7 @@ class Controller extends BaseController
     public function done($data = [], $message = "success", $status = 200)
     {
         return response()->json([
+            'status_code' => $status,
             'message' => $message,
             'server_time' => date('Y-m-d H:i:s'),
             'data' => $data
@@ -23,6 +24,7 @@ class Controller extends BaseController
     public function failed($message = "failed", $status = 400, $data = [])
     {
         return response()->json([
+            'status_code' => $status,
             'message' => $message,
             'data' => $data
         ], $status);
