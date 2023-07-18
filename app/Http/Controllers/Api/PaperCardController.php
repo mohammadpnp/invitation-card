@@ -21,7 +21,7 @@ class PaperCardController extends Controller
         $poem = $paperCard->poem ?? Poem::inRandomOrder()->first();
 
         return $this->done([
-            'PaperCard' => new PaperCardResource($paperCard),
+            'paper_card' => new PaperCardResource($paperCard),
             'poem' => new PoemResource($poem)
         ]);
     }

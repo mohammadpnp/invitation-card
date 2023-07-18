@@ -17,7 +17,7 @@ class SpecialSellController extends Controller
         }
 
         return $this->done([
-            'SpecialSell' => new SpecialSellResource($specialSell),
+            'special_sell' => new SpecialSellResource($specialSell),
         ]);
     }
 }

@@ -23,4 +23,14 @@ class Activity extends Model
     {
         return $this->belongsToMany(User::class, 'user_activity', 'activity_id' , 'user_id');
     }
+
+    public const TYPE_AREA = 1;
+    public const TYPE_GROUP = 2;
+    public const TYPE_CATEGORY = 3;
+
+    public $typeTitles = [
+        self::TYPE_AREA => 'حوزه',
+        self::TYPE_GROUP => 'گروه',
+        self::TYPE_CATEGORY => 'دسته',
+    ];
 }

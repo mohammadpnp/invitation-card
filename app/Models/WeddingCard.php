@@ -66,5 +66,4 @@ class WeddingCard extends Model
     {
         return $this->belongsTo(Poem::class , 'poem_id');
     }
-
 }

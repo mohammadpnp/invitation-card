@@ -33,8 +33,10 @@ class Fair extends Model
 
     public function scopeFilter($query, $request)
     {
-        if ($request->get('archive')) {
-            $query->where('end_date', '<', date('Y-m-d'));
+        if (isset($request->get('filter')['archive'])) {
+            $query->where('end_date_at', '<', date('Y-m-d'));
+        } else {
+            $query->where('end_date_at', '>', date('Y-m-d'));
         }
     }
 

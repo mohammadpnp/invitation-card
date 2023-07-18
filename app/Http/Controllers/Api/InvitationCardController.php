@@ -4,11 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvitationCard\SubmitSurveyRequest;
+use App\Http\Resources\ActivityResource;
 use App\Http\Resources\FairsResource;
 use App\Http\Resources\InvitationCardResource;
 use App\Http\Resources\InvitationCardsResource;
 use App\Http\Resources\PoemResource;
 use App\Http\Resources\PoemsResource;
+use App\Models\Activity;
 use App\Models\Fair;
 use App\Models\Poem;
 use App\Models\Survey;
@@ -27,13 +29,16 @@ class InvitationCardController extends Controller
         }
 
         $invitationCards = $fair->cards()
+//            ->filter($request)
             ->orderBy('weight', 'desc')
             ->get();
+//        $tags = Activity::where('type' , Activity::TYPE_AREA)->get();
 
-        return [
+        return $this->done([
             'fair' => new FairsResource($fair),
-            'invitationCards' => InvitationCardsResource::collection($invitationCards)->response()->getData(true)
-        ];
+            'invitation_cards' => InvitationCardsResource::collection($invitationCards)->response()->getData(true),
+//            'tags' => ActivityResource::collection($tags)->response()->getData(true)
+        ]);
     }
 
     public function show($id)
@@ -46,7 +51,7 @@ class InvitationCardController extends Controller
         $poem = $invitationCard->poem ?? Poem::inRandomOrder()->first();
 
         return $this->done([
-            'InvitationCard' => new InvitationCardResource($invitationCard),
+            'invitation_card' => new InvitationCardResource($invitationCard),
             'poem' => new PoemResource($poem)
         ]);
     }

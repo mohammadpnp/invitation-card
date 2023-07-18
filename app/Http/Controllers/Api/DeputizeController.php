@@ -17,7 +17,7 @@ class DeputizeController extends Controller
         }
 
         return $this->done([
-            'Deputize' => new DeputizeResource($deputize),
+            'deputize' => new DeputizeResource($deputize),
         ]);
     }
 }
