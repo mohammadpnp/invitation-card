@@ -18,8 +18,11 @@ class FairsController extends Controller
             ->orderByDesc('id')
             ->paginate($request->get('per_page',10));
 
+        $fair_places = FairPlace::all();
+
         return $this->done([
-            'fairs' => FairsResource::collection($fairs)->response()->getData(true)
+            'fairs' => FairsResource::collection($fairs)->response()->getData(true),
+            'fair_places' => FairPlacesResource::collection($fair_places)->response()->getData(true)
         ]);
     }
 

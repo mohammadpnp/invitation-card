@@ -30,11 +30,6 @@ class CompanyMember extends Authenticatable
         'remember_token',
     ];
 
-    public function activities(): BelongsToMany
-    {
-        return $this->belongsToMany(Activity::class , 'company_activity' , 'company_id' , 'activity_id');
-    }
-
     public function fairs(): BelongsToMany
     {
         return $this->belongsToMany(Fair::class , 'company_fair', 'company_id', 'fair_id');

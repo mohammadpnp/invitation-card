@@ -29,15 +29,16 @@ class InvitationCardController extends Controller
         }
 
         $invitationCards = $fair->cards()
-//            ->filter($request)
+            ->filter($request)
             ->orderBy('weight', 'desc')
             ->get();
-//        $tags = Activity::where('type' , Activity::TYPE_AREA)->get();
+
+        $tags = Activity::where('type' , Activity::TYPE_AREA)->get();
 
         return $this->done([
             'fair' => new FairsResource($fair),
             'invitation_cards' => InvitationCardsResource::collection($invitationCards)->response()->getData(true),
-//            'tags' => ActivityResource::collection($tags)->response()->getData(true)
+            'tags' => ActivityResource::collection($tags)->response()->getData(true)
         ]);
     }
 

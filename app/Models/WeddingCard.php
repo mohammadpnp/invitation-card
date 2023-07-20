@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Traits\HasMainPicture;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -65,5 +66,20 @@ class WeddingCard extends Model
     public function poem()
     {
         return $this->belongsTo(Poem::class , 'poem_id');
+    }
+
+    public function activities(): BelongsToMany
+    {
+        return $this->belongsToMany(Activity::class , 'company_activity' , 'company_id' , 'activity_id');
+    }
+
+    public function scopeFilter($query, $request)
+    {
+        if (isset($request->get('filter')['tag'])) {
+            $tagId = $request->get('filter')['tag'];
+            $query->whereHas('activities',  function($query) use($tagId){
+                $query->where('id' , $tagId);
+            });
+        }
     }
 }

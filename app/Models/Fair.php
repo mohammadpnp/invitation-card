@@ -38,6 +38,10 @@ class Fair extends Model
         } else {
             $query->where('end_date_at', '>', date('Y-m-d'));
         }
+
+        if (isset($request->get('filter')['place'])) {
+            $query->where('fair_place_id', $request->get('filter')['place']);
+        }
     }
 
 

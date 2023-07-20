@@ -20,6 +20,7 @@ class FairPlacesResource extends JsonResource
             'poster' => $this->poster_url,
             'is_internal' => $this->is_internal,
             'slider' => $this->slider,
+            'description' => $this->description
         ];
     }
 }
