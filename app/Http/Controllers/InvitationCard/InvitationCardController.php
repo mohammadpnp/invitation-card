@@ -384,7 +384,7 @@ class InvitationCardController extends Controller
 
     private function savePicture1($request, $card)
     {
-        $storage = Storage::disk('wedding_card_picturs');
+        $storage = Storage::disk('card_attachment');
 
         if ($request->hasFile('file1')) {
             $file = $request->file('file1');
@@ -409,7 +409,7 @@ class InvitationCardController extends Controller
 
     private function savePicture2($request, $card)
     {
-        $storage = Storage::disk('wedding_card_picturs');
+        $storage = Storage::disk('card_attachment');
 
         if ($request->hasFile('file2')) {
             $file = $request->file('file2');
@@ -434,7 +434,7 @@ class InvitationCardController extends Controller
 
     private function savePicture3($request, $card)
     {
-        $storage = Storage::disk('wedding_card_picturs');
+        $storage = Storage::disk('card_attachment');
 
         if ($request->hasFile('file3')) {
             $file = $request->file('file3');
@@ -459,7 +459,7 @@ class InvitationCardController extends Controller
 
     private function savePicture4($request, $card)
     {
-        $storage = Storage::disk('wedding_card_picturs');
+        $storage = Storage::disk('card_attachment');
 
         if ($request->hasFile('file4')) {
             $file = $request->file('file4');

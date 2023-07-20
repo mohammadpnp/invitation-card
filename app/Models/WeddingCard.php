@@ -75,11 +75,19 @@ class WeddingCard extends Model
 
     public function scopeFilter($query, $request)
     {
-        if (isset($request->get('filter')['tag'])) {
+        if (isset($request->get('filter')['tag_id'])) {
             $tagId = $request->get('filter')['tag'];
             $query->whereHas('activities',  function($query) use($tagId){
                 $query->where('id' , $tagId);
             });
         }
     }
+
+    public const TEMPLATE_TYPE_RECTANGLE = 1;
+    public const TEMPLATE_TYPE_RECTANGLES = 2;
+    public const TEMPLATE_TYPE_CIRCLE = 3;
+    public const TEMPLATE_TYPE_CIRCLES = 4;
+    public const TEMPLATE_TYPE_DIAMOND = 5;
+    public const TEMPLATE_TYPE_DIAMONDS = 6;
+    public const TEMPLATE_TYPE_TRIANGLES = 7;
 }

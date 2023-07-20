@@ -39,7 +39,7 @@ class Fair extends Model
             $query->where('end_date_at', '>', date('Y-m-d'));
         }
 
-        if (isset($request->get('filter')['place'])) {
+        if (isset($request->get('filter')['fair_place_id'])) {
             $query->where('fair_place_id', $request->get('filter')['place']);
         }
     }

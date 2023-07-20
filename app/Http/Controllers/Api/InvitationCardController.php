@@ -38,7 +38,9 @@ class InvitationCardController extends Controller
         return $this->done([
             'fair' => new FairsResource($fair),
             'invitation_cards' => InvitationCardsResource::collection($invitationCards)->response()->getData(true),
-            'tags' => ActivityResource::collection($tags)->response()->getData(true)
+            'filters' => [
+                'tags' => ActivityResource::collection($tags)->response()->getData(true)
+            ]
         ]);
     }
 

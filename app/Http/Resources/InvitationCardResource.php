@@ -38,6 +38,7 @@ class InvitationCardResource extends JsonResource
             'youtube_id' => $this->youtube_link,
             'website_link' => $this->website_link,
             'video_link' => $this->video_link,
+            'template_type' => $this->template_type
         ];
     }
 }
