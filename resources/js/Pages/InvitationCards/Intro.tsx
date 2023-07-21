@@ -481,7 +481,7 @@ export default function Intro(): ReactElement {
 	
 	const [placeholder, setPlaceholder] = useState(false);
 	
-	const [palette, setPalette] = useState<PaletteColors>(location?.state?.pallete);
+	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
 	
 	const [dimensions, setDimensions] = useState(window)
 	
@@ -586,6 +586,10 @@ export default function Intro(): ReactElement {
 							src={logo}
 							alt=""
 							onLoad={(event) => {
+								if (palette) {
+									return;
+								}
+								
 								const logo_palette = getPaletteFromImage(event.currentTarget);
 								
 								setPalette(logo_palette);

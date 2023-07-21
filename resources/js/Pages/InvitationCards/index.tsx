@@ -1,11 +1,11 @@
-import * as React         from 'react';
+import * as React                                      from 'react';
 import {
 	ReactElement,
 	useState,
 	useEffect,
 	useRef,
 	MouseEvent,
-}                         from 'react';
+}                                                      from 'react';
 import {
 	BookmarkBorderRounded,
 	CardGiftcardRounded,
@@ -13,7 +13,7 @@ import {
 	MoreHorizRounded,
 	ShareRounded,
 	StarRounded,
-}                         from '@mui/icons-material';
+}                                                      from '@mui/icons-material';
 import {
 	Badge as BadgeBase,
 	Card,
@@ -22,26 +22,26 @@ import {
 	CardMedia,
 	Chip,
 	ThemeProvider,
-}                         from '@mui/material';
-import IconButton         from '@mui/material/IconButton';
-import MenuItem           from '@mui/material/MenuItem';
-import {styled}           from '@mui/material/styles';
-import Typography         from '@mui/material/Typography';
-import Box                from '@mui/material/Box';
-import CssBaseline        from '@mui/material/CssBaseline';
+}                                                      from '@mui/material';
+import IconButton                                      from '@mui/material/IconButton';
+import MenuItem                                        from '@mui/material/MenuItem';
+import {styled}                                        from '@mui/material/styles';
+import Typography                                      from '@mui/material/Typography';
+import Box                                             from '@mui/material/Box';
+import CssBaseline                                     from '@mui/material/CssBaseline';
 import {
-	Link,
+	Link, useNavigate,
 	useParams,
 	useSearchParams,
-}                         from 'react-router-dom';
-import getInvitationCards from '../../API/InvitationCards';
-import AppBar             from '../../Components/AppBar';
-import NavigationBar      from '../../Components/NavigationBar';
-import Menu               from '@mui/material/Menu';
-import theme, {M3}        from '../../Themes/M3';
-import slide_1            from '../../statics/agrofood.jpg';
-import {Filters}          from '../../Types/Place';
-import InvitationCard     from '../../Types/InvitationCard';
+}                                                      from 'react-router-dom';
+import getInvitationCards                              from '../../API/InvitationCards';
+import AppBar                                          from '../../Components/AppBar';
+import NavigationBar                                   from '../../Components/NavigationBar';
+import Menu                                            from '@mui/material/Menu';
+import theme, {getPaletteFromImage, M3, PaletteColors} from '../../Themes/M3';
+import slide_1                                         from '../../statics/agrofood.jpg';
+import {Filters}                                       from '../../Types/Place';
+import InvitationCard                                  from '../../Types/InvitationCard';
 
 // Badge
 const Badge = styled(BadgeBase)(({theme}) => ({
@@ -60,6 +60,7 @@ const Badge = styled(BadgeBase)(({theme}) => ({
 export default function InvitationCards(): ReactElement {
 	/* Location */
 	const [search_params, setSearchParams] = useSearchParams();
+	const navigate                         = useNavigate();
 	
 	/* States */
 	const [invitation_cards, setInvitationCards] = useState<InvitationCard[]>([]);
@@ -73,6 +74,18 @@ export default function InvitationCards(): ReactElement {
 	const ref = useRef<HTMLDivElement>(null);
 	
 	const open = Boolean(anchor_element);
+	
+	const logo_palettes: { [key: number]: PaletteColors } = {};
+	
+	invitation_cards.forEach(({id, logo}) => {
+		const image = new Image();
+		
+		image.onload = () => {
+			logo_palettes[id] = getPaletteFromImage(image);
+		};
+		
+		image.src = logo;
+	});
 	
 	const toggleMenu = (event: MouseEvent<HTMLElement>) => {
 		setAnchorElement(event.currentTarget);
@@ -233,7 +246,20 @@ export default function InvitationCards(): ReactElement {
 							>
 								<CardContent sx={{display: 'flex', paddingBottom: 0}}>
 									<Box>
-										<Link to={id ? `/invitation-cards/${id}/intro` : ''}>
+										<Link to={id ? `/invitation-cards/${id}/intro` : ''} onClick={(event) => {
+											event.preventDefault();
+											
+											if (id) {
+												navigate(
+													String(event.currentTarget.getAttribute('href')),
+													{
+														state: {
+															palette: logo_palettes[id]
+														}
+													}
+												);
+											}
+										}}>
 											<Typography gutterBottom variant="h6" component="h6" color="primary.contrastText">
 												{title}
 											</Typography>
@@ -248,10 +274,25 @@ export default function InvitationCards(): ReactElement {
 											anchorOrigin={{vertical: 'top', horizontal: 'left'}}
 											variant="dot"
 										>
-											<Link to={id ? `/invitation-cards/${id}/intro` : ''}>
+											<Link to={id ? `/invitation-cards/${id}/intro` : ''} onClick={(event) => {
+												event.preventDefault();
+												
+												if (id) {
+													navigate(
+														String(event.currentTarget.getAttribute('href')),
+														{
+															state: {
+																palette: logo_palettes[id]
+															}
+														}
+													);
+												}
+											}}>
 												{
 													logo ?
-														<CardMedia image={logo} sx={{width: 76, height: 76}} />
+														<CardMedia
+															image={logo}
+															sx={{width: 76, height: 76}} />
 														:
 														null
 												}

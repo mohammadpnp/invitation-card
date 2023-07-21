@@ -220,6 +220,10 @@ export default function InvitationCard(): ReactElement {
 										src={logo}
 										alt=""
 										onLoad={(event) => {
+											if (palette) {
+												return;
+											}
+											
 											const logo_palette = getPaletteFromImage(event.currentTarget);
 											
 											setPalette(logo_palette);
