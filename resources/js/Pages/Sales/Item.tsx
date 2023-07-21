@@ -1,24 +1,32 @@
+import * as React    from 'react';
+import {
+	ReactElement,
+	useEffect,
+	useState,
+	useRef,
+	MouseEvent
+}                    from 'react';
 import {
 	AddBusinessRounded,
-	AssignmentInd, AssignmentIndRounded, ContactPhoneRounded,
-}                                                      from '@mui/icons-material';
-import CssBaseline                                     from '@mui/material/CssBaseline';
-import List                                            from '@mui/material/List';
-import ListItem                                        from '@mui/material/ListItem';
-import {styled}                                        from '@mui/material/styles';
-import Grid                                            from '@mui/material/Unstable_Grid2';
-import {ReactElement, useState}                        from 'react';
-import * as React                                      from 'react';
+	ContactPhoneRounded,
+}                    from '@mui/icons-material';
+import CssBaseline   from '@mui/material/CssBaseline';
+import {styled}      from '@mui/material/styles';
+import Grid          from '@mui/material/Unstable_Grid2';
 import {
 	Button,
 	ThemeProvider,
-}                                                      from '@mui/material';
-import Typography                                      from '@mui/material/Typography';
-import Box                                             from '@mui/material/Box';
-import {useLocation}                                   from 'react-router-dom';
-import AppBar                                          from '../Components/AppBar';
-import NavigationBar                                   from '../Components/NavigationBar';
-import theme, {getPaletteFromImage, M3, PaletteColors} from '../Themes/M3';
+}                    from '@mui/material';
+import Typography    from '@mui/material/Typography';
+import Box           from '@mui/material/Box';
+import {useLocation} from 'react-router-dom';
+import AppBar        from '../../Components/AppBar';
+import NavigationBar from '../../Components/NavigationBar';
+import theme, {
+	getPaletteFromImage,
+	M3,
+	PaletteColors,
+}                    from '../../Themes/M3';
 
 const Logo = styled('img')(({theme}) => ({
 	width    : '100%',
@@ -26,26 +34,29 @@ const Logo = styled('img')(({theme}) => ({
 }));
 
 // Demo data
-import bosch from '../statics/bosch.png';
-import mihan from '../statics/mihan.png';
-import kaleh from '../statics/kaleh.png';
+import bosch from '../../statics/bosch.png';
+import mihan from '../../statics/mihan.png';
+import kaleh from '../../statics/kaleh.png';
 
 const logo = [bosch, mihan, kaleh][Math.floor(Math.random() * 3)];
 
-import shooshool from '../statics/shooshool.png';
+import shooshool from '../../statics/shooshool.png';
 
-export default function Sale(): ReactElement {
-	const [invitation_cards, setInvitationCards] = React.useState(() => []);
-	const [invitation_card, setInvitationCard]   = React.useState(0);
-	const [anchor_element, setAnchorElement]     = React.useState<null | HTMLElement>(null);
-	const ref                                    = React.useRef<HTMLDivElement>(null);
-	const [popup, setPopup]                      = useState<number | null>(null);
+export default function Item(): ReactElement {
+	const [invitation_cards, setInvitationCards] = useState(() => []);
+	const [invitation_card, setInvitationCard]   = useState(0);
 	
-	const location              = useLocation();
+	const [anchor_element, setAnchorElement] = useState<null | HTMLElement>(null);
+	
+	const ref = useRef<HTMLDivElement>(null);
+	
+	const [popup, setPopup] = useState<number | null>(null);
+	
+	const location = useLocation();
 	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
 	
 	const open       = Boolean(anchor_element);
-	const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
+	const toggleMenu = (event: MouseEvent<HTMLElement>) => {
 		setAnchorElement(event.currentTarget);
 	};
 	
@@ -53,7 +64,7 @@ export default function Sale(): ReactElement {
 		setAnchorElement(null);
 	};
 	
-	React.useEffect(() => {
+	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
 		
 	}, [invitation_card, setInvitationCards]);
@@ -163,75 +174,92 @@ export default function Sale(): ReactElement {
 										({image, title, features}, index) => (
 											<Grid
 												xs={12}
-												sm={6}
+												md={6}
 												className={`${index === popup ? 'popup' : ''} ${index % 2 ? 'even' : 'odd'} ${Math.floor((index / 2) % 2) ? 'double-even' : 'double-odd'}`}
 												sx={{
-													textAlign: 'left',
-													position : 'relative',
-													display  : 'flex',
+													textAlign : 'left',
+													position  : 'relative',
+													display   : 'flex',
+													transition: (theme) => theme.transitions.create(
+														[
+															'transform',
+														],
+													),
 													
-													'&.double-even': {
-														'.diamond': {
-															right        : '10%',
-															flexDirection: 'row-reverse',
-														},
-														
-														'.title': {
-															left: '10%',
-														},
-														
-														'.description': {
-															left: '40%',
-														},
-														
-														'&.popup': {
-															'.diamond': {
-																right: 0,
-															},
-															
-															'.title': {
-																right: 'auto',
-																left : '38%',
-															},
-														},
-													},
 													'&.odd'        : {
-														borderRight: (theme) => `1px solid ${theme.palette.grey[400]}`,
+														':not(.popup)': {
+															borderRight: (theme) => `1px solid ${theme.palette.grey[400]}`,
+														},
 													},
 													'&.even'       : {},
-													'&.double-odd' : {
-														'.diamond': {
-															left: '10%',
-														},
-														
-														'.title': {
-															left: '40%',
-														},
-														
-														'.description': {
-															left: '40%',
-														},
-														
-														'&.popup': {
+													'&.double-even': {
+														[theme.breakpoints.up('md')]: {
 															'.diamond': {
-																left: 0,
+																right        : '10%',
+																flexDirection: 'row-reverse',
 															},
 															
 															'.title': {
-																left: '35%',
+																left: '10%',
+															},
+															
+															'.description': {
+																left: '40%',
+															},
+															
+															'&.popup': {
+																'.diamond': {
+																	right: 0,
+																},
+																
+																'.title': {
+																	right: 'auto',
+																	left : '38%',
+																},
+															},
+														},
+													},
+													'&.double-odd' : {
+														[theme.breakpoints.up('md')]: {
+															'.diamond': {
+																left: '10%',
+															},
+															
+															'.title': {
+																left: '40%',
+															},
+															
+															'.description': {
+																left: '40%',
+															},
+															
+															'&.popup': {
+																'.diamond': {
+																	left: 0,
+																},
+																
+																'.title': {
+																	left: '35%',
+																},
 															},
 														},
 													},
 													
 													'&:not(.popup)': {
 														'.description': {
-															maxHeight: 0,
+															//maxHeight: 0,
+															transform: 'scale(0)',
+															opacity  : 0,
 															display  : 'none',
 														},
 													},
 													
 													'&.popup': {
-														zIndex: items.length,
+														zIndex   : items.length,
+														transform: {
+															xs: `translate(0, -${100 * Math.floor(index / 2)}%)`,
+															md: `translate(${50 * (index % 2 ? -1 : 1)}%, -${100 * Math.floor(index / 2)}%)`,
+														},
 														
 														'.diamond': {
 															'&::before': {
@@ -240,28 +268,24 @@ export default function Sale(): ReactElement {
 																position    : 'absolute',
 																transform   : 'rotate(0)',
 															},
-															transform  : 'scale(1)',
+															transform  : `scale(1)`,
 															zIndex     : 2,
 															width      : '100%',
-															height     : {
-																xs: 100,
-																sm: 400,
-															},
+															height     : 400,
 															
 															'.image': {
 																width    : '40%',
-																maxHeight: {
-																	xs: 100,
-																	sm: 200,
-																},
+																maxHeight: 200,
 																transform: 'scale(0.7) translateY(20%) rotate(0)',
 																left     : 0,
 																top      : 0,
 															},
 															
 															'.description': {
-																top            : '150px', // title height
-																maxHeight      : '500px',
+																top: '150px', // title height
+																//maxHeight      : '500px',
+																transform      : 'scale(1)',
+																opacity        : 1,
 																transformOrigin: '0 0',
 																width          : '60%',
 															},
@@ -273,13 +297,12 @@ export default function Sale(): ReactElement {
 													},
 													
 													'.diamond': {
-														position : 'absolute',
-														zIndex   : 1,
-														top      : 0,
-														transform: 'scale(0.7)',
-														width    : '20%',
-														height   : 100,
-														
+														position  : 'absolute',
+														zIndex    : 1,
+														top       : 0,
+														transform : 'scale(0.7)',
+														width     : '20%',
+														height    : 100,
 														transition: (theme) => theme.transitions.create(
 															[
 																'left',
@@ -331,7 +354,9 @@ export default function Sale(): ReactElement {
 															top          : 0,
 															transition   : (theme) => theme.transitions.create(
 																[
-																	'max-height',
+																	//'max-height',
+																	'transform',
+																	'opacity',
 																	'top',
 																	'left',
 																],

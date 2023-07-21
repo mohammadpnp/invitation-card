@@ -58,7 +58,7 @@ const ArrowBackRounded = styled(ArrowBackRoundedBase)(({theme}) => ({
 	transform: theme.direction === 'rtl' ? 'scaleX(-1)' : undefined,
 }));
 
-export default function AppBar(properties: Properties) {
+export default function AppBar(properties: Properties): ReactElement {
 	const [anchor_element_account, setAnchorElementAccount]                = React.useState<null | HTMLElement>(null);
 	const [anchor_element_account_md, setAnchorElementAccountMd]           = React.useState<null | HTMLElement>(null);
 	const [anchor_element_notification, setAnchorElementNotification]      = React.useState<null | HTMLElement>(null);

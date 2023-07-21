@@ -28,6 +28,24 @@ body {
 	text-align : right;
 }
 
+@keyframes animation_placeholder {
+	0%, 100% {
+		background-size : 100%;
+	}
+	
+	50% {
+		background-size : 200%;
+	}
+}
+
+.placeholder {
+	animation : 0.75s animation_placeholder 0s infinite;
+}
+
+.placeholder > * {
+	opacity : 0;
+}
+
 ::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
 	color   : $placeholder-color;
 	opacity : 1; /* Firefox */

@@ -1,5 +1,5 @@
-import {ReactNode}              from 'react';
-import * as React               from 'react';
+import {ReactElement, ReactNode} from 'react';
+import * as React                from 'react';
 import {OverridableStringUnion} from '@mui/types';
 import {
 	ChecklistRtlRounded,
@@ -22,7 +22,7 @@ interface Properties {
 	actions?: Action[]
 }
 
-export default function NavigationBar(properties: Properties) {
+export default function NavigationBar(properties: Properties): ReactElement {
 	const [value, setValue]     = React.useState(2);
 	const [actions, setActions] = React.useState(
 		typeof properties.actions !== 'undefined'

@@ -1,19 +1,7 @@
-import axios, {AxiosInstance} from 'axios';
-
 export default class Helper {
-	public static getFetcher(): AxiosInstance {
-		return axios.create(
-			{
-				baseURL: 'https://api.example.com',
-			},
-		);
-	}
-	
-	public static formatDate(date_time: string): string {
-		return new Date(date_time).toLocaleDateString('fa', {
-			year : 'numeric',
-			month: 'short',
-			day  : 'numeric',
-		});
+	static isRtl(text: string) {
+		const regexp = /[\u0622\u0626-\u0628\u062A-\u063A\u0641-\u064A\u0660-\u0669\u067e\u0686\u0691\u0698\u06a9\u06cc\u06af\u06f0-\u06f9]+[\u0622\u0626-\u0628\u062A-\u063A\u0641-\u064A\u0660-\u0669\u067e\u0686\u0691\u0698\u06a9\u06cc\u06af\u06f0-\u06f9\s]*/;
+		
+        return regexp.test(text);
 	}
 }

@@ -1,16 +1,26 @@
+import * as React     from 'react';
+import {
+	ReactElement,
+	useState,
+	useRef,
+	useEffect,
+}                     from 'react';
 import IconButton     from '@mui/material/IconButton';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemIcon   from '@mui/material/ListItemIcon';
 import ListItemText   from '@mui/material/ListItemText';
-import * as React     from 'react';
-import {ReactElement} from 'react';
 import {
 	AddBusinessRounded,
 	AutoStoriesRounded,
-	CampaignRounded, CardGiftcard, CardMembershipRounded,
+	CampaignRounded,
+	CardGiftcard,
+	CardMembershipRounded,
 	Instagram,
-	LanguageRounded, ManageSearchRounded, PlayArrowRounded,
-	Telegram, TrackChangesRounded,
+	LanguageRounded,
+	ManageSearchRounded,
+	PlayArrowRounded,
+	Telegram,
+	TrackChangesRounded,
 	WhatsApp,
 	YouTube,
 }                     from '@mui/icons-material';
@@ -22,34 +32,28 @@ import {
 	ThemeProvider,
 }                     from '@mui/material';
 import Box            from '@mui/material/Box';
-import {useNavigate}         from 'react-router-dom';
-import AppBar         from '../Components/AppBar';
-import NavigationBar  from '../Components/NavigationBar';
-import theme          from '../Themes/M3';
-import logo           from '../statics/bosch.png';
+import {useNavigate} from 'react-router-dom';
+import AppBar        from '../../Components/AppBar';
+import NavigationBar from '../../Components/NavigationBar';
+import theme         from '../../Themes/M3';
+import logo          from '../../statics/bosch.png';
 
 export default function Video(): ReactElement {
-	const [videos, setVideos]               = React.useState(() => []);
-	const [video, setVideo]                 = React.useState(0);
-	const [anchorElement, setAnchorElement] = React.useState<null | HTMLElement>(null);
-	const ref                               = React.useRef<HTMLDivElement>(null);
+	/* Location */
+	const navigate = useNavigate();
 	
-	const open       = Boolean(anchorElement);
-	const toggleMenu = (event: React.MouseEvent<HTMLElement>) => {
-		setAnchorElement(event.currentTarget);
-	};
+	/* States */
+	const [videos, setVideos]               = useState(() => []);
+	const [video, setVideo]                 = useState(0);
 	
-	const handleClose = () => {
-		setAnchorElement(null);
-	};
+	const [anchor_element, setAnchorElement] = useState<null | HTMLElement>(null);
 	
-	React.useEffect(() => {
+	const ref                               = useRef<HTMLDivElement>(null);
+	
+	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
 		
 	}, [video, setVideos]);
-	
-	// navigate
-	const navigate = useNavigate();
 	
 	return (
 		<ThemeProvider theme={theme}>

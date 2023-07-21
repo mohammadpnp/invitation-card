@@ -123,11 +123,11 @@ export const M3 = (palette?: PaletteColors) => {
 	// Dark Mode
 	let prefers_dark_mode = false;
 	/*
-	try {
-		prefers_dark_mode = useMediaQuery('(prefers-color-scheme: dark)');
-	} catch (error) {
-	}
-	*/
+	 try {
+	 prefers_dark_mode = useMediaQuery('(prefers-color-scheme: dark)');
+	 } catch (error) {
+	 }
+	 */
 	
 	const isDark = (color: string): boolean => decomposeColor(color).values.reduce((prev, current) => prev + current, 0) < 400;
 	
@@ -367,15 +367,19 @@ export const M3 = (palette?: PaletteColors) => {
 				],
 				styleOverrides: {
 					root: ({theme}) => ({
-						background  : theme.palette.grey[50],
-						borderWidth : 1,
-						borderStyle : 'solid',
-						borderColor : theme.palette.grey[400],
-						borderRadius: 16,
-						marginBottom: theme.spacing(3),
+						backgroundColor: theme.palette.grey[50],
+						borderWidth    : 1,
+						borderStyle    : 'solid',
+						borderColor    : theme.palette.grey[400],
+						borderRadius   : 16,
+						marginBottom   : theme.spacing(3),
 						
 						'&:has(a):hover': {
 							boxShadow: shadows[2],
+						},
+						
+						'&.placeholder': {
+							background: `linear-gradient(45deg, ${theme.palette.grey[300]}, ${theme.palette.grey[400]}, ${theme.palette.grey[300]})`,
 						},
 					}),
 				},
@@ -613,6 +617,10 @@ export const M3 = (palette?: PaletteColors) => {
 				styleOverrides: {
 					root    : ({theme}) => ({
 						transition: theme.transitions.create(['background', 'borderRadius']),
+						
+						'&.placeholder': {
+							background: `linear-gradient(45deg, ${theme.palette.grey[300]}, ${theme.palette.grey[400]}, ${theme.palette.grey[300]})`,
+						},
 					}),
 					filled  : ({theme}) => ({
 						backgroundColor: theme.palette.primary.main,
@@ -683,16 +691,8 @@ export function getPaletteFromImage(image_element: HTMLImageElement): PaletteCol
 	const block_size: number = 5; // only visit every 5 pixels
 	
 	const default_rgbs: PaletteColors = {
-		primary  : {
-			light: '',
-			main : '',
-			dark : '',
-		},
-		secondary: {
-			light: '',
-			main : '',
-			dark : '',
-		},
+		primary  : getPrimary(),
+		secondary: getSecondary(),
 	}; // for non-supporting envs
 	
 	const canvas: HTMLCanvasElement                = document.createElement('canvas');
@@ -710,7 +710,7 @@ export function getPaletteFromImage(image_element: HTMLImageElement): PaletteCol
 		image_element.setAttribute('crossOrigin', '');
 		
 		canvas.width  = image_element.naturalWidth || image_element.offsetWidth || image_element.width;
-		canvas.height = image_element.naturalHeight || image_element.offsetHeight || image_element.height;
+		canvas.height = image_element.naturalHeight || image_element.offsetHeight || image_element.height || 1;
 		
 		context.drawImage(image_element, 0, 0);
 		

@@ -1,36 +1,39 @@
+import * as React                                             from 'react';
+import {
+	ReactElement,
+	useEffect,
+	useRef,
+	useState,
+}                                                             from 'react';
 import {
 	DownloadRounded,
 	LocationOn,
 	ReplyRounded,
-}                                                  from '@mui/icons-material';
-import BottomNavigation                            from '@mui/material/BottomNavigation';
-import CssBaseline                                 from '@mui/material/CssBaseline';
-import {keyframes, styled}                         from '@mui/material/styles';
-import Grid                                        from '@mui/material/Unstable_Grid2';
-import {SystemCssProperties}                       from '@mui/system/styleFunctionSx/styleFunctionSx';
-import {ReactElement, useEffect, useRef, useState} from 'react';
-import * as React                                  from 'react';
+}                                                             from '@mui/icons-material';
+import BottomNavigation                                       from '@mui/material/BottomNavigation';
+import CssBaseline                                            from '@mui/material/CssBaseline';
+import {keyframes, styled}                                    from '@mui/material/styles';
+import Grid                                                   from '@mui/material/Unstable_Grid2';
+import {SystemCssProperties}                                  from '@mui/system/styleFunctionSx/styleFunctionSx';
 import {
-	Button, Container,
+	Button,
+	Container,
 	ThemeProvider,
-}                                                  from '@mui/material';
-import Typography                                  from '@mui/material/Typography';
-import Box                                         from '@mui/material/Box';
-import {useLocation, useNavigate}                  from 'react-router-dom';
-import AppBar                                      from '../Components/AppBar';
+}                                                             from '@mui/material';
+import Typography                                             from '@mui/material/Typography';
+import Box                                                    from '@mui/material/Box';
+import {useLocation, useNavigate, useParams, useSearchParams} from 'react-router-dom';
+import getInvitationCard                                      from '../../API/InvitationCard';
+import Helper                                                 from '../../Helpers/Helper';
+import InvitationCardType                                     from '../../Types/InvitationCard';
+import AppBar                                                 from '../../Components/AppBar';
 import theme, {
 	PaletteColors,
 	getPaletteFromImage,
 	M3,
-}                                                  from '../Themes/M3';
+}                                                             from '../../Themes/M3';
 
-import bosch from '../statics/bosch.png';
-import kaleh from '../statics/kaleh.png';
-import mihan from '../statics/mihan.png';
-
-const logo = [bosch, kaleh, mihan][Math.floor(Math.random() * 3)];
-
-const Image = styled('img')(({theme}) => ({
+const Image = styled('img')(() => ({
 	width    : '100%',
 	maxHeight: '100px',
 }));
@@ -58,72 +61,90 @@ const getFadeAnimation = () => keyframes`
 `;
 
 export default function InvitationCard(): ReactElement {
-	const [invitation_cards, setInvitationCards] = useState(() => []);
-	const [invitation_card]                      = useState(0);
-	const [navigation_bar, setNavigationBar]     = useState(true);
+	/* Location */
+	const location                         = useLocation();
+	const {id}                             = useParams();
+	const navigate                         = useNavigate();
+	const [search_params, setSearchParams] = useSearchParams();
 	
-	const location              = useLocation();
+	/* States */
+	const [invitation_card, setInvitationCard] = useState<InvitationCardType>(
+		{
+			id           : 0,
+			logo         : '',
+			pictures     : [],
+			title        : '',
+			slogan       : '',
+			hall         : 0,
+			booth        : 0,
+			template_type: 1,
+			
+			description: {
+				header: '',
+				body  : '',
+				footer: '',
+			},
+			poem       : {
+				verses: [],
+				voice : null,
+			},
+		},
+	);
+	
+	const [placeholder, setPlaceholder] = useState(false);
+	
+	const [navigation_bar, setNavigationBar] = useState(true);
+	
+	const [poem_mode, setPoemMode] = useState(false);
+	
 	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
 	
-	const [poem_mode, setPoemMode]           = useState(false);
-	const [anchor_element, setAnchorElement] = useState<null | HTMLElement>(null);
-	const ref                                = useRef<HTMLDivElement>(null);
+	// Ref
+	const ref = useRef<HTMLDivElement>(null);
+	
+	const {
+		      logo,
+		      title,
+		      slogan,
+		      exhibition,
+		      description,
+		      poem,
+		      manager,
+	      } = invitation_card;
 	
 	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
 		
-	}, [invitation_card, setInvitationCards]);
-	
-	// navigate
-	const navigate = useNavigate();
+		setPlaceholder(true);
+		
+		(async () => {
+			await getInvitationCard(Number(id), search_params).then((result): void => {
+				setPlaceholder(false);
+				
+				setInvitationCard(result.item);
+			});
+		})();
+	}, [setInvitationCard]);
 	
 	// Demo data
-	const name: string             = 'اسم و فامیل';
-	const direction: 'ltr' | 'rtl' = 'ltr';
-	
-	const poem: string[][] = [
-		[
-			'مژده ای دل که مسیحا نفسی می آید',
-			'که از انفاس خوشش بوی کسی می آید',
-		],
-		[
-			'ز غم هجر مکن ناله و فریاد که دوش',
-			'زده‌ام فالی و فریادرسی می‌آید',
-		],
-		[
-			'زآتش وادی ایمن نه منم خُرّم و بس',
-			'موسی آنجا به امید قبسی می‌آید',
-		],
-		[
-			'هیچ کس نیست که در کوی تواش کاری نیست',
-			'هرکس آنجا به طریق هوسی می‌آید',
-		],
-		[
-			'کس ندانست که منزلگه معشوق کجاست',
-			'این قدر هست که بانگ جرسی می‌آید',
-		],
-		[
-			'جرعه‌ای دِه که به میخانهٔ ارباب کرم',
-			'هر حریفی ز پی ملتمسی می‌آید',
-		],
-		[
-			'دوست را گر سر پرسیدن بیمار غم است',
-			'گو بر آن خوش که هنوزش نفسی می‌آید',
-		],
-		[
-			'خبر بلبل این باغ بپرسید که من',
-			'ناله‌ای می‌شنوم کز قفسی می‌آید',
-		],
-		[
-			'یار دارد سر صید دل حافظ یاران',
-			'شاهبازی به شکار مگسی می‌آید',
-		],
-	];
+	const direction: 'ltr' | 'rtl' = Helper.isRtl(slogan) ? 'rtl' : 'ltr';
 	
 	const pdf_link: string = 'https://expo-start.ir/api/pdf/har-kossheri.pdf';
 	
-	const year: string = '۱۴۰۲';
-	const title        = <>بیست وسومین نمایشگاه بین المللی<br />لوازم خانگی - تهران</>;
+	// placeholder
+	if (placeholder) {
+		if (!Object.values(invitation_card).length) {
+			invitation_card.title = 'placeholder';
+		}
+	}
+	
+	let start_at_object;
+	let end_at_object;
+	
+	if (exhibition) {
+		start_at_object = new Date(exhibition.start_at);
+		end_at_object   = new Date(exhibition.end_at);
+	}
 	
 	return (
 		<ThemeProvider theme={M3(palette)}>
@@ -204,12 +225,21 @@ export default function InvitationCard(): ReactElement {
 											setPalette(logo_palette);
 										}} />
 									<Typography variant="h6" sx={{textAlign: direction === 'ltr' ? 'left' : 'right'}}>
-										invented for Life
+										{slogan}
 									</Typography>
 								</Box>
 								<Typography sx={{direction: 'rtl'}}>
-									تاریخ دعوت:
-									۱۴۰۲/۰۳/۲۶
+									تاریخ دعوت:&nbsp;
+									{
+										start_at_object ?
+											start_at_object.toLocaleDateString('fa', {
+												year : 'numeric',
+												month: 'short',
+												day  : 'numeric',
+											})
+											:
+											null
+									}
 								</Typography>
 							</Box>
 							<Box sx={{
@@ -228,7 +258,14 @@ export default function InvitationCard(): ReactElement {
 									fontWeight: 500,
 									textAlign : 'left',
 								}}>
-									{year}
+									{
+										start_at_object ?
+											start_at_object.toLocaleDateString('fa', {
+												year: 'numeric',
+											})
+											:
+											null
+									}
 								</Typography>
 							</Box>
 							
@@ -241,8 +278,54 @@ export default function InvitationCard(): ReactElement {
 									justifyContent: 'space-between',
 								},
 							}}>
-								<Typography variant="subtitle2">محل دائمی نمایشگاه های بین المللی تهران</Typography>
-								<Typography>۲۶ الی ۳۰ خرداد</Typography>
+								<Typography variant="subtitle2">{exhibition ? exhibition.title : null}</Typography>
+								<Typography>
+									{
+										start_at_object ?
+											start_at_object.toLocaleDateString('fa', {
+												day: 'numeric',
+											})
+											:
+											null
+									}
+									{
+										start_at_object && end_at_object ?
+											(
+												start_at_object.toLocaleDateString(
+													'fa',
+													{
+														month: 'short',
+													},
+												) !== end_at_object.toLocaleDateString(
+													'fa',
+													{
+														month: 'short',
+													},
+												)
+													?
+													start_at_object.toLocaleDateString(
+														'fa',
+														{
+															month: 'short',
+														},
+													)
+													:
+													null
+											)
+											:
+											null
+									}
+									&nbsp;الی&nbsp;
+									{
+										end_at_object ?
+											end_at_object.toLocaleDateString('fa', {
+												month: 'short',
+												day  : 'numeric',
+											})
+											:
+											null
+									}
+								</Typography>
 							</Box>
 						</Box>
 						<Box sx={{
@@ -288,59 +371,62 @@ export default function InvitationCard(): ReactElement {
 								},
 							}}>
 								{
-									poem.map(
-										(stanzas, index) => <Box
-											key={index}
-											sx={{
-												display      : 'flex',
-												flexDirection: 'column',
-												lineHeight   : '2rem',
-												gap          : 2,
-												
-												[theme.breakpoints.up('sm')]: {
-													justifyContent: 'space-between',
-													gap           : 3,
-													flexDirection : 'row',
-												},
-												
-												[theme.breakpoints.up('md')]: {
-													gap   : 5,
-													height: '2rem',
-												},
-											}}>
-											<Typography
+									poem ?
+										poem.verses.map(
+											(stanzas, index) => <Box
+												key={index}
 												sx={{
-													width     : '100%',
-													lineHeight: '2rem',
-													opacity   : index < 2 ? 0 : undefined,
-													animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index}.5s linear forwards` : undefined,
+													display      : 'flex',
+													flexDirection: 'column',
+													lineHeight   : '2rem',
+													gap          : 2,
 													
 													[theme.breakpoints.up('sm')]: {
-														width    : 300,
-														textAlign: 'left',
+														justifyContent: 'space-between',
+														gap           : 3,
+														flexDirection : 'row',
 													},
-												}}
-												variant="body2">
-												{stanzas[0]}
-											</Typography>
-											<Typography
-												sx={{
-													width     : '100%',
-													lineHeight: '2rem',
-													opacity   : index < 2 ? 0 : undefined,
-													animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index + 1}s linear forwards` : undefined,
 													
-													[theme.breakpoints.up('sm')]: {
-														width    : 300,
-														textAlign: 'right',
+													[theme.breakpoints.up('md')]: {
+														gap   : 5,
+														height: '2rem',
 													},
-												}}
-												variant="body2"
-											>
-												{stanzas[1]}
-											</Typography>
-										</Box>,
-									)
+												}}>
+												<Typography
+													sx={{
+														width     : '100%',
+														lineHeight: '2rem',
+														opacity   : index < 2 ? 0 : undefined,
+														animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index}.5s linear forwards` : undefined,
+														
+														[theme.breakpoints.up('sm')]: {
+															width    : 300,
+															textAlign: 'left',
+														},
+													}}
+													variant="body2">
+													{stanzas[0]}
+												</Typography>
+												<Typography
+													sx={{
+														width     : '100%',
+														lineHeight: '2rem',
+														opacity   : index < 2 ? 0 : undefined,
+														animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index + 1}s linear forwards` : undefined,
+														
+														[theme.breakpoints.up('sm')]: {
+															width    : 300,
+															textAlign: 'right',
+														},
+													}}
+													variant="body2"
+												>
+													{stanzas[1]}
+												</Typography>
+											</Box>,
+										)
+										:
+										null
 								}
 							</Box>
 							<Box>
@@ -372,39 +458,49 @@ export default function InvitationCard(): ReactElement {
 								flexDirection: 'column',
 								gap          : 2,
 							}}>
-								<Typography variant="subtitle2" lineHeight={2}>سرور ارجمند {name}</Typography>
-								<Typography variant="body1" lineHeight={2}>
-									در بیست و سومین نمایشگاه بین المللی لوازم خانگی که از تاریخ 29 آذر الی 2 دی ماه سال ۱۴۰۲ در محل دائمی نمایشگاه بین المللی تهران برگزار می شود<br />
-								</Typography>
-								<Typography variant="body2" sx={{textAlign: 'center'}}>
-									پذیرای حضور گرم شما باشیم
-								</Typography>
+								<Typography variant="subtitle2" lineHeight={2}>{description ? description.header : null}</Typography>
+								<Typography variant="body1" lineHeight={2}>{description ? description.body : null}</Typography>
+								<Typography variant="body2"
+								            sx={{textAlign: 'center'}}>{description ? description.footer : null}</Typography>
 							</Box>
-							<Grid sx={{
-								border      : (theme) => `1px solid ${theme.palette.grey[400]}`,
-								borderRadius: (theme) => theme.spacing(2),
-								padding     : (theme) => theme.spacing(2),
-								width       : '100%',
-								
-								[theme.breakpoints.up('sm')]: {
-									marginRight: 'auto',
-									minWidth   : '300px',
-									maxWidth   : '30%',
-								},
-							}} container>
-								<Grid xs={7}>
-									<Typography variant="body2" lineHeight="2">
-										علیرضا سلیمانی<br />
-										مدیر عامل<br />
-										شرکت کاسپین<br />
-										نمایندگی بوش ایران
-									</Typography>
-								</Grid>
-								<Grid xs={5} sx={{
-									border      : (theme) => `1px solid ${theme.palette.grey[400]}`,
-									borderRadius: (theme) => theme.spacing(2),
-								}}></Grid>
-							</Grid>
+							{
+								manager ?
+									<Grid sx={{
+										border      : (theme) => `1px solid ${theme.palette.grey[400]}`,
+										borderRadius: (theme) => theme.spacing(2),
+										padding     : (theme) => theme.spacing(2),
+										width       : '100%',
+										
+										[theme.breakpoints.up('sm')]: {
+											marginRight: 'auto',
+											minWidth   : '300px',
+											maxWidth   : '30%',
+										},
+									}} container>
+										<Grid xs={7}>
+											<Typography variant="body2" lineHeight="2">
+												{manager.name}<br />
+												{manager.position}<br />
+												{manager.title}<br />
+												{manager.description}
+											</Typography>
+										</Grid>
+										<Grid xs={5} sx={{
+											border      : (theme) => `1px solid ${theme.palette.grey[400]}`,
+											borderRadius: (theme) => theme.spacing(2),
+											overflow    : 'hidden',
+											display     : 'flex',
+											alignItems  : 'center',
+										}}>
+											<Image src={manager.picture} alt="" sx={{
+												maxWidth : 150,
+												maxHeight: 150,
+											}} />
+										</Grid>
+									</Grid>
+									:
+									null
+							}
 						</Box>
 					</Box>
 					<Grid
@@ -427,13 +523,13 @@ export default function InvitationCard(): ReactElement {
 								variant="contained"
 								color="primary"
 								onClick={() => {
-									navigate('/map', {
+									navigate(id ? `/invitation-cards/${id}/map` : '', {
 										state: {
+											invitation_card,
 											palette,
 										},
 									});
-								}}
-							>
+								}}>
 								مسیریابی غرفه
 							</Button>
 						</Box>
@@ -456,7 +552,7 @@ export default function InvitationCard(): ReactElement {
 								variant="contained"
 								color="secondary"
 								onClick={() => {
-									navigate('/invitation-card-reply', {
+									navigate(id ? `/invitation-cards/${id}/reply` : '', {
 										state: {palette},
 									});
 								}}
@@ -486,7 +582,14 @@ export default function InvitationCard(): ReactElement {
 							<Grid onClick={() => {
 								setNavigationBar(false);
 							}}>
-								<Button variant="text">
+								<Button variant="text" onClick={() => {
+									navigate(id ? `/invitation-cards/${id}/reply` : '', {
+										state: {
+											invitation_card,
+											palette,
+										},
+									});
+								}}>
 									بله
 								</Button>
 								<Button variant="text">

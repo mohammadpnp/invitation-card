@@ -1,21 +1,23 @@
-import React          from 'react';
-import ReactDOM       from 'react-dom/client';
+import React                from 'react';
+import ReactDOM             from 'react-dom/client';
 import {
 	createBrowserRouter,
 	RouterProvider,
-}                     from 'react-router-dom';
-import Exhibition     from './Pages/Exhibition';
-import ExhibitionInfo from './Pages/ExhibitionInfo';
-import ExhibitionSub  from './Pages/ExhibitionSub';
-import InvitationCard from './Pages/InvitationCard';
-import InvitationCardIntro from './Pages/InvitationCardIntro';
-import InvitationCardReply from './Pages/InvitationCardReply';
-import InvitationCards from './Pages/InvitationCards';
-import Map            from './Pages/Map';
-import Sale from './Pages/Sale';
-import SaleReply from './Pages/SaleReply';
-import UnderConstruction from './Pages/UnderConstruction';
-import Video from './Pages/Video';
+}                           from 'react-router-dom';
+import Places               from './Pages/Places';
+import Exhibitions          from './Pages/Exhibitions';
+import ExhibitionItem       from './Pages/Exhibitions/Item';
+//import Calendars            from './Pages/Exhibitions/Calendars';
+//import Internationals       from './Pages/Exhibitions/Internationals';
+import InvitationCards      from './Pages/InvitationCards';
+import InvitationCardItem   from './Pages/InvitationCards/Item';
+import InvitationCardsIntro from './Pages/InvitationCards/Intro';
+import InvitationCardsReply from './Pages/InvitationCards/Reply';
+import InvitationCardsMap   from './Pages/InvitationCards/Map';
+import SaleItem             from './Pages/Sales/Item';
+import SaleReply            from './Pages/Sales/Reply';
+import UnderConstruction    from './Pages/UnderConstruction';
+import Video                from './Pages/InvitationCards/Video';
 //import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(
@@ -27,9 +29,43 @@ const router = createBrowserRouter(
 		{
 			path   : '/',
 			element: (
-				<Exhibition />
+				<Places />
 			),
 		},
+		/*
+		 {
+		 path   : 'places',
+		 element: (
+		 <Places />
+		 ),
+		 },
+		 */
+		{
+			path   : 'exhibitions',
+			element: (
+				<Exhibitions />
+			),
+		},
+		{
+			path   : 'exhibitions/:id',
+			element: (
+				<ExhibitionItem />
+			),
+		},
+		/*
+		 {
+		 path   : 'exhibitions/:id/calendars',
+		 element: (
+		 <Calendars />
+		 ),
+		 },
+		 {
+		 path   : 'exhibitions/:id/internationals',
+		 element: (
+		 <Internationals />
+		 ),
+		 },
+		 */
 		{
 			path   : 'invitation-cards',
 			element: (
@@ -37,21 +73,27 @@ const router = createBrowserRouter(
 			),
 		},
 		{
-			path   : 'invitation-card-intro',
+			path   : 'invitation-cards/:id/intro',
 			element: (
-				<InvitationCardIntro />
+				<InvitationCardsIntro />
 			),
 		},
 		{
-			path   : 'invitation-card',
+			path   : 'invitation-cards/:id',
 			element: (
-				<InvitationCard />
+				<InvitationCardItem />
 			),
 		},
 		{
-			path   : 'invitation-card-reply',
+			path   : 'invitation-cards/:id/reply',
 			element: (
-				<InvitationCardReply />
+				<InvitationCardsReply />
+			),
+		},
+		{
+			path   : 'invitation-cards/:id/map',
+			element: (
+				<InvitationCardsMap />
 			),
 		},
 		{
@@ -61,47 +103,23 @@ const router = createBrowserRouter(
 			),
 		},
 		{
-			path   : 'sale',
+			path   : 'sales/:id',
 			element: (
-				<Sale />
+				<SaleItem />
 			),
 		},
 		{
-			path   : 'sale-reply',
+			path   : 'sales/:id/reply',
 			element: (
 				<SaleReply />
 			),
 		},
 		{
-			path   : 'exhibitions',
+			path   : '*',
 			element: (
-				<Exhibition />
+				<UnderConstruction />
 			),
 		},
-		{
-			path   : 'exhibition-subs',
-			element: (
-				<ExhibitionSub />
-			),
-		},
-		{
-			path   : 'exhibition-info',
-			element: (
-				<ExhibitionInfo />
-			),
-		},
-		{
-			path   : 'map',
-			element: (
-				<Map />
-			),
-		},
-		{
-			path: '*',
-			element: (
-				<UnderConstruction/>
-			)
-		}
 	],
 );
 

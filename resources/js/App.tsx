@@ -1,3 +1,4 @@
+import {ReactElement}  from 'react';
 import * as React      from 'react';
 import {ThemeProvider} from '@mui/material';
 import Box             from '@mui/material/Box';
@@ -32,7 +33,7 @@ const companyExamples: readonly Companies[] = [
 	},
 ];
 
-export default function App() {
+export default function App(): ReactElement {
 	const ref = React.useRef<HTMLDivElement>(null);
 	
 	return (
