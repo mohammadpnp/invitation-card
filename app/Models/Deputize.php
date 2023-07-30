@@ -20,4 +20,14 @@ class Deputize extends Model
     {
         return $this->logo ? Storage::disk('deputize_pictures')->url($this->logo) : null;
     }
+
+    public function scopeFilter($query, $request)
+    {
+        if (isset($request->get('filter')['tag_id'])) {
+            $tagId = $request->get('filter')['tag'];
+            $query->whereHas('activities',  function($query) use($tagId){
+                $query->where('id' , $tagId);
+            });
+        }
+    }
 }

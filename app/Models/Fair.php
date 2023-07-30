@@ -26,6 +26,23 @@ class Fair extends Model
         return $this->hasMany(WeddingCard::class , 'fair_id');
     }
 
+    public function paperCards()
+    {
+        return $this->hasMany(PaperCard::class , 'fair_id');
+    }
+
+    public function deputizes()
+    {
+        return $this->hasMany(Deputize::class , 'fair_id');
+    }
+
+    public function specialSells()
+    {
+        return $this->hasMany(SpecialSell::class , 'fair_id');
+    }
+
+
+
     public function fairPlace()
     {
        return $this->belongsTo(FairPlace::class,'id');

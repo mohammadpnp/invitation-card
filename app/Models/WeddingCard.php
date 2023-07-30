@@ -90,4 +90,16 @@ class WeddingCard extends Model
     public const TEMPLATE_TYPE_DIAMOND = 5;
     public const TEMPLATE_TYPE_DIAMONDS = 6;
     public const TEMPLATE_TYPE_TRIANGLES = 7;
+
+    public static function getTemplateTitle(){
+        return [
+            self::TEMPLATE_TYPE_RECTANGLE => 'rectangle',
+            self::TEMPLATE_TYPE_RECTANGLES => 'rectangles',
+            self::TEMPLATE_TYPE_CIRCLE => 'circle',
+            self::TEMPLATE_TYPE_CIRCLES => 'circles',
+            self::TEMPLATE_TYPE_DIAMOND => 'diamond',
+            self::TEMPLATE_TYPE_DIAMONDS => 'diamonds',
+            self::TEMPLATE_TYPE_TRIANGLES => 'triangles',
+        ];
+    }
 }

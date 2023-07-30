@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use App\Models\Fair;
+use App\Models\WeddingCard;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
@@ -38,7 +39,10 @@ class InvitationCardResource extends JsonResource
             'youtube_id' => $this->youtube_link,
             'website_link' => $this->website_link,
             'video_link' => $this->video_link,
-            'template_type' => $this->template_type
+            'template_type' => WeddingCard::getTemplateTitle()[$this->template_type] ?? null,
+            'manager_position' => $this->manager_position,
+            'manager_description' => $this->manager_description,
+            'customer' => 'علی صادقی',
         ];
     }
 }

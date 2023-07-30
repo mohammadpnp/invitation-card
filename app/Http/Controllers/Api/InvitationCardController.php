@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\InvitationCard\SubmitSurveyRequest;
 use App\Http\Resources\ActivityResource;
+use App\Http\Resources\BannerResorce;
 use App\Http\Resources\FairsResource;
 use App\Http\Resources\InvitationCardResource;
 use App\Http\Resources\InvitationCardsResource;
+use App\Http\Resources\NavbarResource;
 use App\Http\Resources\PoemResource;
 use App\Http\Resources\PoemsResource;
 use App\Models\Activity;
 use App\Models\Fair;
+use App\Models\Navbar;
 use App\Models\Poem;
 use App\Models\Survey;
 use App\Models\WeddingCard;
@@ -23,7 +26,7 @@ class InvitationCardController extends Controller
 {
     public function index(Request $request , $fairId)
     {
-        $fair = Fair::find($fairId);
+        $fair = Fair::with('fairPlace')->find($fairId);
         if (!$fair) {
             return $this->failed('نمایشگاه یافت نشد');
         }
@@ -35,11 +38,43 @@ class InvitationCardController extends Controller
 
         $tags = Activity::where('type' , Activity::TYPE_AREA)->get();
 
+        $menus = Navbar::all();
+
         return $this->done([
             'fair' => new FairsResource($fair),
             'invitation_cards' => InvitationCardsResource::collection($invitationCards)->response()->getData(true),
+            'banners' => [
+                'position' => 'top',
+                'items' => new BannerResorce($fair->fairPlace)
+            ],
+            'menus' =>[
+                'position' => 'navigation',
+                'items' =>NavbarResource::collection($menus)->response()->getData(true)
+            ],
             'filters' => [
-                'tags' => ActivityResource::collection($tags)->response()->getData(true)
+                'tags' => ActivityResource::collection($tags)->response()->getData(true),
+                'type' => [
+                    [
+                        'id' => 1,
+                        'name' => 'کارت دعوت آنلاین',
+                        'is_active' => true
+                    ],
+                    [
+                        'id' => 2,
+                        'name' => 'لوح تقدیر آنلاین',
+                        'is_active' => false
+                    ],
+                    [
+                        'id' => 3,
+                        'name' => 'آگهی فروش ویژه',
+                        'is_active' => false
+                    ],
+                    [
+                        'id' => 4,
+                        'name' => 'آگهی اعطای نمایندگی',
+                        'is_active' => false
+                    ],
+                ]
             ]
         ]);
     }

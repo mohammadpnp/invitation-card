@@ -26,8 +26,8 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::prefix('fairs')->group(function () {
-    Route::get('' , [FairsController::class,'index']);
-    Route::get('/fair-places' , [FairsController::class,'fairPlaces']);
+    Route::get('' , [FairsController::class,'index'])->name('api.fairs');
+    Route::get('/fair-places' , [FairsController::class,'fairPlaces'])->name('api.fair-places');
 });
 
 Route::prefix('invitation-cards')->group(function () {
@@ -38,14 +38,17 @@ Route::prefix('invitation-cards')->group(function () {
 
 
 Route::prefix('paper-cards')->group(function () {
+    Route::get('{fairId}' , [PaperCardController::class,'index']);
     Route::get('{id}/show' ,[PaperCardController::class , 'show']);
 });
 
 Route::prefix('special-sells')->group(function () {
+    Route::get('{fairId}' , [SpecialSellController::class,'index']);
     Route::get('{id}/show' ,[SpecialSellController::class , 'show']);
 });
 
 Route::prefix('deputize')->group(function () {
+    Route::get('{fairId}' , [DeputizeController::class,'index']);
     Route::get('{id}/show' ,[DeputizeController::class , 'show']);
 });
 

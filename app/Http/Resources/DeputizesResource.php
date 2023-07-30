@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ActivityResource extends JsonResource
+class DeputizesResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,10 @@ class ActivityResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'is_active' => false
+            'brand' => $this->brand,
+            'logo' => $this->logo_url,
+            'slogan' => $this->slogan,
+            'description' => $this->title
         ];
     }
 }

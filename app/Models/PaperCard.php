@@ -50,4 +50,14 @@ class PaperCard extends Model
         return $this->logo ? Storage::disk('paper_card_pictures')->url($this->logo) : null;
     }
 
+    public function scopeFilter($query, $request)
+    {
+        if (isset($request->get('filter')['tag_id'])) {
+            $tagId = $request->get('filter')['tag'];
+            $query->whereHas('activities',  function($query) use($tagId){
+                $query->where('id' , $tagId);
+            });
+        }
+    }
+
 }
