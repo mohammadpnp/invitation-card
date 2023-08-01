@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasInvitationCard;
 use App\Traits\HasMainPicture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Deputize extends Model
 {
-    use HasFactory , HasMainPicture;
+    use HasFactory , HasMainPicture , HasInvitationCard;
 
     public function products()
     {

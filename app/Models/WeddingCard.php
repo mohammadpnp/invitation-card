@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasInvitationCard;
 use App\Traits\HasMainPicture;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -10,7 +11,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WeddingCard extends Model
 {
-    use HasFactory , HasMainPicture;
+    use HasFactory , HasMainPicture , HasInvitationCard;
 
     protected $fillable = [
         'card_id',
@@ -38,10 +39,6 @@ class WeddingCard extends Model
         'fair_id',
         'have_poem',
     ];
-
-    public function card(){
-        return $this->belongsTo(InvitationCard::class,'card_id');
-    }
 
     public function getLogoUrlAttribute()
     {

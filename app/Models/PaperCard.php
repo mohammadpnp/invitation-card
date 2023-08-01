@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\HasInvitationCard;
 use App\Traits\HasMainPicture;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -9,7 +10,7 @@ use Illuminate\Support\Facades\Storage;
 
 class PaperCard extends Model
 {
-    use HasFactory , HasMainPicture;
+    use HasFactory , HasMainPicture , HasInvitationCard;
 
     protected $fillable = [
         'card_id',
@@ -25,10 +26,6 @@ class PaperCard extends Model
 
     public const MAN_GENDER = 1;
     public const WOMAN_GENDER = 0;
-
-    public function card(){
-        return $this->belongsTo(InvitationCard::class,'card_id');
-    }
 
     public function poem()
     {

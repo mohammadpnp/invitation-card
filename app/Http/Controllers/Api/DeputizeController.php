@@ -36,14 +36,8 @@ class DeputizeController extends Controller
         return $this->done([
             'fair' => new FairsResource($fair),
             'deputizes' => DeputizesResource::collection($deputizes)->response()->getData(true),
-            'banners' => [
-                'position' => 'top',
-                'items' => new BannerResorce($fair->fairPlace)
-            ],
-            'menus' =>[
-                'position' => 'navigation',
-                'items' =>NavbarResource::collection($menus)->response()->getData(true)
-            ],
+            'banners' => new BannerResorce($fair->fairPlace),
+            'menus'  =>NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
                 'tags' => ActivityResource::collection($tags)->response()->getData(true),
                 'type' => [

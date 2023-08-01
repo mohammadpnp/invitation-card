@@ -28,25 +28,21 @@ class FairsController extends Controller
         return $this->done([
             'fairs' => FairsResource::collection($fairs)->response()->getData(true),
             'fair_places' => FairPlacesResource::collection($fair_places)->response()->getData(true),
-            'banners' => [
-                'position' => 'top',
-                'items' => BannerResorce::collection($fair_places->where('slider',true))->response()->getData(true)
-                ],
-            'menus' =>[
-                'position' => 'navigation',
-                'items' =>NavbarResource::collection($menus)->response()->getData(true)
-            ],
+            'banners' => BannerResorce::collection($fair_places->where('slider',true))->response()->getData(true),
+            'menus' => NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
-                [
-                    'id' => 1,
-                    'name' => 'نمایشگاه های در حال برگزاری و آتی',
-                    'archive' => true
-                ],
-                [
-                    'id' => 0,
-                    'name' => 'آرشیو نمایشگاه ها',
-                    'archive' => false
-                ],
+                'archive' => [
+                    [
+                        'id' => 1,
+                        'name' => 'نمایشگاه های در حال برگزاری و آتی',
+                        'archive' => true
+                    ],
+                    [
+                        'id' => 0,
+                        'name' => 'آرشیو نمایشگاه ها',
+                        'archive' => false
+                    ],
+                ]
             ]
         ]);
     }
@@ -61,25 +57,21 @@ class FairsController extends Controller
 
         return $this->done([
             'fair_places' => FairPlacesResource::collection($fairs)->response()->getData(true),
-            'banners' =>[
-                'position' => 'top',
-                'items' =>BannerResorce::collection($fairs->where('slider',true))->response()->getData(true)
-            ],
-            'menus' =>[
-                'position' => 'navigation',
-                'items' =>NavbarResource::collection($menus)->response()->getData(true)
-            ],
+            'banners' => BannerResorce::collection($fairs->where('slider',true))->response()->getData(true),
+            'menus' => NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
-                [
-                    'id' => 1,
-                    'name' => 'مراکز نمایشگاه داخلی',
-                    'is_active' => true
-                ],
-                [
-                    'id' => 0,
-                    'name' => 'مراکز نمایشگاه خارجی',
-                    'is_active' => false
-                ],
+                'internal' => [
+                    [
+                        'id' => 1,
+                        'name' => 'مراکز نمایشگاه داخلی',
+                        'is_active' => true
+                    ],
+                    [
+                        'id' => 0,
+                        'name' => 'مراکز نمایشگاه خارجی',
+                        'is_active' => false
+                    ],
+                ]
             ]
         ]);
     }

@@ -35,6 +35,9 @@ class InvitationCard extends Model
 
     public $cards = [
         WeddingCard::class,
+        PaperCard::class,
+        Deputize::class,
+        SpecialSell::class,
     ];
 
 

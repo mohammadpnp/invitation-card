@@ -42,6 +42,8 @@ class CompanyMember extends Authenticatable
 
     public function cards()
     {
-        return $this->hasMany(InvitationCard::class);
+        return $this->hasMany(InvitationCard::class ,'user_id');
     }
+
+
 }

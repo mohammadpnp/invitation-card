@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\CompanyController;
 use App\Http\Controllers\Api\DeputizeController;
 use App\Http\Controllers\Api\FairsController;
 use App\Http\Controllers\Api\InvitationCardController;
@@ -50,6 +51,10 @@ Route::prefix('special-sells')->group(function () {
 Route::prefix('deputize')->group(function () {
     Route::get('{fairId}' , [DeputizeController::class,'index']);
     Route::get('{id}/show' ,[DeputizeController::class , 'show']);
+});
+
+Route::prefix('company')->group(function () {
+    Route::get('{id}' , [CompanyController::class,'companyCardsList']);
 });
 
 //Route::prefix('user')->group(function () {
