@@ -33,12 +33,25 @@ class InvitationCard extends Model
         return $this->morphTo();
     }
 
-    public $cards = [
-        WeddingCard::class,
-        PaperCard::class,
-        Deputize::class,
-        SpecialSell::class,
-    ];
+    public static function getCards()
+    {
+       return [
+            1 => WeddingCard::class,
+            2 => PaperCard::class,
+            3 => SpecialSell::class,
+            4 => Deputize::class,
+        ];
+    }
+
+    public static function getCardsTitle()
+    {
+       return [
+           WeddingCard::class => 'کارت دعوت آنلاین',
+           PaperCard::class => 'لوح تقدیر آنلاین',
+           SpecialSell::class => 'آگهی فروش ویژه',
+           Deputize::class => 'آگهی اعطای نمایندگی',
+       ];
+    }
 
 
     public const CREATED_STATUS = 1;

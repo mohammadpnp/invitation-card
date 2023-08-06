@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ActivityResource extends JsonResource
+class FairFilterResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -17,7 +17,7 @@ class ActivityResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
-            'is_active' => in_array($this->id,$request->get('filter')['tags'] ?? [])
+            'is_active' => in_array($this->id,$request->get('filter')['fairs'] ?? []),
         ];
     }
 }

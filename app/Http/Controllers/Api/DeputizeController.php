@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\ActivityResource;
 use App\Http\Resources\BannerResorce;
+use App\Http\Resources\CardsFilterResource;
 use App\Http\Resources\DeputizeResource;
 use App\Http\Resources\DeputizesResource;
 use App\Http\Resources\FairsResource;
@@ -12,6 +13,7 @@ use App\Http\Resources\NavbarResource;
 use App\Models\Activity;
 use App\Models\Deputize;
 use App\Models\Fair;
+use App\Models\InvitationCard;
 use App\Models\Navbar;
 use Illuminate\Http\Request;
 
@@ -40,28 +42,7 @@ class DeputizeController extends Controller
             'menus'  =>NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
                 'tags' => ActivityResource::collection($tags)->response()->getData(true),
-                'type' => [
-                    [
-                        'id' => 1,
-                        'name' => 'کارت دعوت آنلاین',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 2,
-                        'name' => 'لوح تقدیر آنلاین',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 3,
-                        'name' => 'آگهی فروش ویژه',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 4,
-                        'name' => 'آگهی اعطای نمایندگی',
-                        'is_active' => true
-                    ],
-                ]
+//                'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),
             ]
         ]);
     }

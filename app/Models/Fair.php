@@ -50,10 +50,13 @@ class Fair extends Model
 
     public function scopeFilter($query, $request)
     {
-        if (isset($request->get('filter')['archive'])) {
-            $query->where('end_date_at', '<', date('Y-m-d'));
-        } else {
-            $query->where('end_date_at', '>', date('Y-m-d'));
+        if (isset($request->get('filter')['archive']) && count($request->get('filter')['archive']) < 2) {
+            if (in_array(true , $request->get('filter')['archive'])){
+                $query->where('end_date_at', '<', date('Y-m-d'));
+            }
+            if (in_array(false , $request->get('filter')['archive'])){
+                $query->where('end_date_at', '>', date('Y-m-d'));
+            }
         }
 
         if (isset($request->get('filter')['fair_place_id'])) {

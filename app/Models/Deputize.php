@@ -24,11 +24,11 @@ class Deputize extends Model
 
     public function scopeFilter($query, $request)
     {
-        if (isset($request->get('filter')['tag_id'])) {
-            $tagId = $request->get('filter')['tag'];
-            $query->whereHas('activities',  function($query) use($tagId){
-                $query->where('id' , $tagId);
-            });
-        }
+//        if (isset($request->get('filter')['tags'])) {
+//            $tagIds = $request->get('filter')['tags'];
+//            $query->whereHas('activities',  function($query) use($tagIds){
+//                $query->whereIn('id' , $tagIds);
+//            });
+//        }
     }
 }

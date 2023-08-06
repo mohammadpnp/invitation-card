@@ -40,28 +40,7 @@ class SpecialSellController extends Controller
             'menus' =>NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
                 'tags' => ActivityResource::collection($tags)->response()->getData(true),
-                'type' => [
-                    [
-                        'id' => 1,
-                        'name' => 'کارت دعوت آنلاین',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 2,
-                        'name' => 'لوح تقدیر آنلاین',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 3,
-                        'name' => 'آگهی فروش ویژه',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 4,
-                        'name' => 'آگهی اعطای نمایندگی',
-                        'is_active' => true
-                    ],
-                ]
+                //'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),
             ]
         ]);
     }

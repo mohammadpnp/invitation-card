@@ -12,10 +12,13 @@ class FairPlace extends Model
 
     public function scopeFilter($query, $request)
     {
-        if (isset($request->get('filter')['is_internal'])) {
-            $query->where('is_internal', true);
-        }else{
-            $query->where('is_internal', false);
+        if (isset($request->get('filter')['is_internal']) && count($request->get('filter')['is_internal']) < 2) {
+            if (in_array(true , $request->get('filter')['is_internal'])) {
+                $query->where('is_internal', true);
+            }
+            if (in_array(false , $request->get('filter')['is_internal'])) {
+                $query->where('is_internal', false);
+            }
         }
     }
 

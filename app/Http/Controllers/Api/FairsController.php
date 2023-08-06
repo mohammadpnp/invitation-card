@@ -32,16 +32,18 @@ class FairsController extends Controller
             'menus' => NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
                 'archive' => [
+                    'data' =>[
                     [
                         'id' => 1,
                         'name' => 'نمایشگاه های در حال برگزاری و آتی',
-                        'archive' => true
+                        'archive' => in_array(1,$request->get('filter')['archive'] ?? [])
                     ],
                     [
                         'id' => 0,
                         'name' => 'آرشیو نمایشگاه ها',
-                        'archive' => false
+                        'archive' => in_array(0,$request->get('filter')['archive'] ?? [])
                     ],
+                        ]
                 ]
             ]
         ]);
@@ -60,17 +62,19 @@ class FairsController extends Controller
             'banners' => BannerResorce::collection($fairs->where('slider',true))->response()->getData(true),
             'menus' => NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
-                'internal' => [
+                'is_internal' => [
+                    'data' =>[
                     [
                         'id' => 1,
                         'name' => 'مراکز نمایشگاه داخلی',
-                        'is_active' => true
+                        'is_active' => in_array(1,$request->get('filter')['is_internal'] ?? [])
                     ],
                     [
                         'id' => 0,
                         'name' => 'مراکز نمایشگاه خارجی',
-                        'is_active' => false
+                        'is_active' => in_array(0,$request->get('filter')['is_internal'] ?? [])
                     ],
+                        ]
                 ]
             ]
         ]);

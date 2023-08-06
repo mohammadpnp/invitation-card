@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\BannerResorce;
+use App\Http\Resources\CardsFilterResource;
 use App\Http\Resources\CompanyCardListResource;
 use App\Http\Resources\CompanyResource;
 use App\Http\Resources\DeputizeResource;
+use App\Http\Resources\FairFilterResource;
 use App\Http\Resources\FairsResource;
 use App\Http\Resources\InvitationCardResource;
 use App\Http\Resources\InvitationCardsResource;
@@ -16,6 +18,7 @@ use App\Http\Resources\SpecialSellResource;
 use App\Models\CompanyMember;
 use App\Models\Deputize;
 use App\Models\Fair;
+use App\Models\InvitationCard;
 use App\Models\Navbar;
 use App\Models\PaperCard;
 use App\Models\SpecialSell;
@@ -32,24 +35,28 @@ class CompanyController extends Controller
         }
         $companyCards = $company->cards;
 
-        if (isset($request->get('filter')['invitation_card']) && $request->get('filter')['invitation_card']) {
-            $companyCards = $companyCards->where('card_type', WeddingCard::class);
-        }
-        if (isset($request->get('filter')['paper_card']) && $request->get('filter')['paper_card']) {
-            $companyCards = $companyCards->where('card_type', PaperCard::class);
-        }
-        if (isset($request->get('filter')['deputize']) && $request->get('filter')['deputize']) {
-            $companyCards = $companyCards->where('card_type', Deputize::class);
-        }
-        if (isset($request->get('filter')['special_sell']) && $request->get('filter')['special_sell']) {
-            $companyCards = $companyCards->where('card_type', SpecialSell::class);
+//        filtering data by type
+        if (isset($request->get('filter')['type'])) {
+            $types = [];
+            foreach ($request->get('filter')['type'] as $type){
+               array_push($types , InvitationCard::getCards()[$type]);
+            }
+            $companyCards = $companyCards->whereIn('card_type', $types);
         }
 
         $cards =[];
         foreach ($companyCards as $invitationCard){
-            $cards[] = new InvitationCardResource($invitationCard->card);
+//            filtering by fairs
+            if (isset($request->get('filter')['fairs'])){
+                if (in_array($invitationCard->card->fair_id,$request->get('filter')['fairs'])){
+                    $cards[] = new InvitationCardResource($invitationCard->card);
+                }
+            }else{
+                $cards[] = new InvitationCardResource($invitationCard->card);
+            }
         }
 
+        $fairs = Fair::all(['id','name']);
         $menus = Navbar::all();
 
         return $this->done([
@@ -57,28 +64,8 @@ class CompanyController extends Controller
             'cards' => InvitationCardsResource::collection($cards)->response()->getData(true),
             'menus' => NavbarResource::collection($menus)->response()->getData(true),
             'filters' => [
-                'type' => [
-                    [
-                        'id' => 1,
-                        'name' => 'کارت دعوت آنلاین',
-                        'is_active' => true
-                    ],
-                    [
-                        'id' => 2,
-                        'name' => 'لوح تقدیر آنلاین',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 3,
-                        'name' => 'آگهی فروش ویژه',
-                        'is_active' => false
-                    ],
-                    [
-                        'id' => 4,
-                        'name' => 'آگهی اعطای نمایندگی',
-                        'is_active' => false
-                    ],
-                ]
+                'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),
+                'fairs' => FairFilterResource::collection($fairs)->response()->getData(true),
             ]
         ]);
     }
