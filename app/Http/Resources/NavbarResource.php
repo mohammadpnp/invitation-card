@@ -15,13 +15,10 @@ class NavbarResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-            'position' => 'navigation',
-            'items' => [
-                'title' => $this->title,
-                'icon' => $this->icon,
-                'link' => $this->link,
-                'target' => '_self'
-            ]
+            'title' => $this->title,
+            'icon' => $this->icon,
+            'link' => $this->link,
+            'target' => '_self'
         ];
     }
 }

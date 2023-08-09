@@ -3,12 +3,18 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\ActivityResource;
 use App\Http\Resources\BannerResorce;
+use App\Http\Resources\CardsFilterResource;
 use App\Http\Resources\FairPlacesResource;
 use App\Http\Resources\FairsResource;
+use App\Http\Resources\InvitationCardResource;
+use App\Http\Resources\InvitationCardsResource;
 use App\Http\Resources\NavbarResource;
+use App\Models\Activity;
 use App\Models\Fair;
 use App\Models\FairPlace;
+use App\Models\InvitationCard;
 use App\Models\Navbar;
 use Illuminate\Http\Request;
 
@@ -28,8 +34,14 @@ class FairsController extends Controller
         return $this->done([
             'fairs' => FairsResource::collection($fairs)->response()->getData(true),
             'fair_places' => FairPlacesResource::collection($fair_places)->response()->getData(true),
-            'banners' => BannerResorce::collection($fair_places->where('slider',true))->response()->getData(true),
-            'menus' => NavbarResource::collection($menus)->response()->getData(true),
+            'banners' =>[
+                'position' => 'top',
+                'items' => BannerResorce::collection($fair_places->where('slider',true))->response()->getData(true)
+            ],
+            'menus' =>[
+                'position' => 'navigation',
+                'items' => NavbarResource::collection($menus)->response()->getData(true)
+            ],
             'filters' => [
                 'archive' => [
                     'data' =>[
@@ -59,8 +71,14 @@ class FairsController extends Controller
 
         return $this->done([
             'fair_places' => FairPlacesResource::collection($fairs)->response()->getData(true),
-            'banners' => BannerResorce::collection($fairs->where('slider',true))->response()->getData(true),
-            'menus' => NavbarResource::collection($menus)->response()->getData(true),
+            'banners' =>[
+                'position' => 'top',
+                'items' => BannerResorce::collection($fairs->where('slider',true))->response()->getData(true)
+            ],
+            'menus' =>[
+                'position' => 'navigation',
+                'items' => NavbarResource::collection($menus)->response()->getData(true)
+            ],
             'filters' => [
                 'is_internal' => [
                     'data' =>[
@@ -76,6 +94,43 @@ class FairsController extends Controller
                     ],
                         ]
                 ]
+            ]
+        ]);
+    }
+
+    public function fairCardList($id , Request $request)
+    {
+        $fair = Fair::with(['cards','paperCards','deputizes','specialSells'])->find($id);
+        if (!$fair) {
+            return $this->failed('نمایشگاه یافت نشد');
+        }
+        $invitationCards = InvitationCard::filter($request)
+            ->whereRelation('card','fair_id',$id)
+            ->with('card')
+            ->get();
+
+        $cards =[];
+        foreach ($invitationCards as $invitationCard){
+           $cards[] = $invitationCard->card;
+        }
+
+        $menus = Navbar::all();
+        $tags = Activity::where('type' , Activity::TYPE_AREA)->get();
+
+        return $this->done([
+            'fair' => new FairsResource($fair),
+            'cards' => InvitationCardsResource::collection($cards)->response()->getData(true),
+            'menus' =>[
+                'position' => 'navigation',
+                'items' => NavbarResource::collection($menus)->response()->getData(true)
+            ],
+            'banners' =>[
+                'position' => 'top',
+                'items' => BannerResorce::collection([$fair])->response()->getData(true)
+            ],
+            'filters' => [
+                'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),
+                'tags' => ActivityResource::collection($tags)->response()->getData(true),
             ]
         ]);
     }

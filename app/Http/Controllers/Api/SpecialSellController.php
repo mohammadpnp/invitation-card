@@ -36,8 +36,14 @@ class SpecialSellController extends Controller
         return $this->done([
             'fair' => new FairsResource($fair),
             'special_sells' => SpecialSellsResource::collection($specialSells)->response()->getData(true),
-            'banners' => new BannerResorce($fair->fairPlace),
-            'menus' =>NavbarResource::collection($menus)->response()->getData(true),
+            'banners' =>[
+                'position' => 'top',
+                'items' => BannerResorce::collection([$fair->fairPlace])->response()->getData(true)
+            ],
+            'menus' =>[
+                'position' => 'navigation',
+                'items' => NavbarResource::collection($menus)->response()->getData(true)
+            ],
             'filters' => [
                 'tags' => ActivityResource::collection($tags)->response()->getData(true),
                 //'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),

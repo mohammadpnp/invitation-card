@@ -62,7 +62,10 @@ class CompanyController extends Controller
         return $this->done([
             'company' => new CompanyResource($company),
             'cards' => InvitationCardsResource::collection($cards)->response()->getData(true),
-            'menus' => NavbarResource::collection($menus)->response()->getData(true),
+            'menus' =>[
+                'position' => 'navigation',
+                'items' => NavbarResource::collection($menus)->response()->getData(true)
+            ],
             'filters' => [
                 'type' => CardsFilterResource::collection(InvitationCard::getCards())->response()->getData(true),
                 'fairs' => FairFilterResource::collection($fairs)->response()->getData(true),

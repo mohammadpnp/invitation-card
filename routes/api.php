@@ -29,6 +29,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('fairs')->group(function () {
     Route::get('' , [FairsController::class,'index'])->name('api.fairs');
     Route::get('/fair-places' , [FairsController::class,'fairPlaces'])->name('api.fair-places');
+    Route::get('/{id}/card-list' , [FairsController::class,'fairCardList']);
 });
 
 Route::prefix('invitation-cards')->group(function () {

@@ -53,6 +53,17 @@ class InvitationCard extends Model
        ];
     }
 
+    public function scopeFilter($query, $request)
+    {
+        if (isset($request->get('filter')['type'])) {
+            $types = [];
+            foreach ($request->get('filter')['type'] as $type){
+                $types[] = self::getCards()[$type];
+            }
+            $query->whereIn('card_type',$types);
+        }
+    }
+
 
     public const CREATED_STATUS = 1;
     public const WAITING_CONFIRM_STATUS = 2;
