@@ -39,7 +39,7 @@ class InvitationCardResource extends JsonResource
             'youtube_id' => $this->youtube_link,
             'website_link' => $this->website_link,
             'video_link' => $this->video_link,
-            'template_type' => WeddingCard::getTemplateTitle()[$this->template_type] ?? null,
+            'template_type' => $this->template_type,
             'manager_position' => $this->manager_position,
             'manager_description' => $this->manager_description,
             'customer' => 'علی صادقی',
