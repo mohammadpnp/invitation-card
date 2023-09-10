@@ -66,7 +66,7 @@ export default function InvitationCard(): ReactElement {
 	const {id}                             = useParams();
 	const navigate                         = useNavigate();
 	const [search_params, setSearchParams] = useSearchParams();
-	
+
 	/* States */
 	const [invitation_card, setInvitationCard] = useState<InvitationCardType>(
 		{
@@ -78,7 +78,7 @@ export default function InvitationCard(): ReactElement {
 			hall         : 0,
 			booth        : 0,
 			template_type: 1,
-			
+
 			description: {
 				header: '',
 				body  : '',
@@ -90,18 +90,18 @@ export default function InvitationCard(): ReactElement {
 			},
 		},
 	);
-	
+
 	const [placeholder, setPlaceholder] = useState(false);
-	
+
 	const [navigation_bar, setNavigationBar] = useState(true);
-	
+
 	const [poem_mode, setPoemMode] = useState(false);
-	
+
 	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
-	
+
 	// Ref
 	const ref = useRef<HTMLDivElement>(null);
-	
+
 	const {
 		      logo,
 		      title,
@@ -111,41 +111,49 @@ export default function InvitationCard(): ReactElement {
 		      poem,
 		      manager,
 	      } = invitation_card;
-	
+
 	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
-		
+
 		setPlaceholder(true);
-		
+
 		(async () => {
 			await getInvitationCard(Number(id), search_params).then((result): void => {
 				setPlaceholder(false);
-				
+
 				setInvitationCard(result.item);
 			});
 		})();
 	}, [setInvitationCard]);
-	
+
 	// Demo data
 	const direction: 'ltr' | 'rtl' = Helper.isRtl(slogan) ? 'rtl' : 'ltr';
-	
+
 	const pdf_link: string = 'https://expo-start.ir/api/pdf/har-kossheri.pdf';
-	
+
 	// placeholder
 	if (placeholder) {
 		if (!Object.values(invitation_card).length) {
 			invitation_card.title = 'placeholder';
 		}
 	}
-	
+
 	let start_at_object;
 	let end_at_object;
-	
+
 	if (exhibition) {
 		start_at_object = new Date(exhibition.start_at);
 		end_at_object   = new Date(exhibition.end_at);
 	}
-	
+
+    function isTooLightYIQ(color: string){
+        const rgb = `${color}`.match(/\d+/g)!;
+        // @ts-ignore
+        const yiq = ((rgb[0]*299)+(rgb[1]*587)+(rgb[2]*114))/1000;
+        return yiq >= 128;
+
+    }
+
 	return (
 		<ThemeProvider theme={M3(palette)}>
 			<Grid sx={{display: 'flex', flexDirection: 'column'}} ref={ref}>
@@ -184,7 +192,7 @@ export default function InvitationCard(): ReactElement {
 							maxHeight    : 0,// shows after animation
 							opacity      : 0, // shows after animation
 							animation    : `0.5s ${getSlideAnimation({maxHeight: !poem_mode ? 400 : 0, opacity: 1})} 2.5s linear forwards`,
-							
+
 							[theme.breakpoints.up('sm')]: {
 								gap      : 0,
 								maxHeight: 0, // shows after animation
@@ -206,7 +214,7 @@ export default function InvitationCard(): ReactElement {
 								alignItems   : 'center',
 								direction,
 								flexDirection: 'column',
-								
+
 								[theme.breakpoints.up('sm')]: {
 									flexDirection : 'row',
 									justifyContent: 'space-between',
@@ -223,9 +231,9 @@ export default function InvitationCard(): ReactElement {
 											if (palette) {
 												return;
 											}
-											
+
 											const logo_palette = getPaletteFromImage(event.currentTarget);
-											
+
 											setPalette(logo_palette);
 										}} />
 									<Typography variant="h6" sx={{textAlign: direction === 'ltr' ? 'left' : 'right'}}>
@@ -249,7 +257,7 @@ export default function InvitationCard(): ReactElement {
 							<Box sx={{
 								display      : 'flex',
 								flexDirection: 'column',
-								
+
 								[theme.breakpoints.up('sm')]: {
 									flexDirection : 'row',
 									justifyContent: 'space-between',
@@ -272,11 +280,11 @@ export default function InvitationCard(): ReactElement {
 									}
 								</Typography>
 							</Box>
-							
+
 							<Box sx={{
 								display      : 'flex',
 								flexDirection: 'column',
-								
+
 								[theme.breakpoints.up('sm')]: {
 									flexDirection : 'row',
 									justifyContent: 'space-between',
@@ -362,14 +370,14 @@ export default function InvitationCard(): ReactElement {
 								display      : 'flex',
 								flexDirection: 'column',
 								gap          : 2,
-								
+
 								[theme.breakpoints.up('sm')]: {
 									width    : 500,
 									marginX  : 'auto',
 									gap      : 0,
 									maxHeight: poem_mode ? 450 : 60,
 								},
-								
+
 								[theme.breakpoints.up('md')]: {
 									width: 600,
 								},
@@ -384,13 +392,13 @@ export default function InvitationCard(): ReactElement {
 													flexDirection: 'column',
 													lineHeight   : '2rem',
 													gap          : 2,
-													
+
 													[theme.breakpoints.up('sm')]: {
 														justifyContent: 'space-between',
 														gap           : 3,
 														flexDirection : 'row',
 													},
-													
+
 													[theme.breakpoints.up('md')]: {
 														gap   : 5,
 														height: '2rem',
@@ -402,7 +410,7 @@ export default function InvitationCard(): ReactElement {
 														lineHeight: '2rem',
 														opacity   : index < 2 ? 0 : undefined,
 														animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index}.5s linear forwards` : undefined,
-														
+
 														[theme.breakpoints.up('sm')]: {
 															width    : 300,
 															textAlign: 'left',
@@ -417,7 +425,7 @@ export default function InvitationCard(): ReactElement {
 														lineHeight: '2rem',
 														opacity   : index < 2 ? 0 : undefined,
 														animation : index < 2 ? `0.5s ${getFadeAnimation()} ${index + 1}s linear forwards` : undefined,
-														
+
 														[theme.breakpoints.up('sm')]: {
 															width    : 300,
 															textAlign: 'right',
@@ -436,7 +444,7 @@ export default function InvitationCard(): ReactElement {
 							<Box>
 								<Button variant="text" onClick={(event) => {
 									event.preventDefault();
-									
+
 									setPoemMode(!poem_mode);
 								}}>
 									《{!poem_mode ? 'ادامه شعر' : 'بازگشت'}》
@@ -452,7 +460,7 @@ export default function InvitationCard(): ReactElement {
 							maxHeight    : 0, // show after animation
 							opacity      : 0, // show after animation
 							animation    : `0.5s ${getSlideAnimation({maxHeight: !poem_mode ? 400 : 0, opacity: 1})} 2.5s linear forwards`,
-							
+
 							[theme.breakpoints.up('md')]: {
 								gap: 0,
 							},
@@ -474,7 +482,7 @@ export default function InvitationCard(): ReactElement {
 										borderRadius: (theme) => theme.spacing(2),
 										padding     : (theme) => theme.spacing(2),
 										width       : '100%',
-										
+
 										[theme.breakpoints.up('sm')]: {
 											marginRight: 'auto',
 											minWidth   : '300px',
@@ -513,7 +521,7 @@ export default function InvitationCard(): ReactElement {
 							display      : 'flex',
 							flexDirection: 'column',
 							gap          : 2,
-							
+
 							[theme.breakpoints.up('sm')]: {
 								flexDirection: 'row',
 							},
@@ -527,7 +535,7 @@ export default function InvitationCard(): ReactElement {
 								variant="contained"
 								color="primary"
 								onClick={() => {
-									navigate(id ? `/invitation-cards/${id}/map` : '', {
+									navigate(id ? `/fair-card-list/${id}/map` : '', {
 										state: {
 											invitation_card,
 											palette,
@@ -556,7 +564,7 @@ export default function InvitationCard(): ReactElement {
 								variant="contained"
 								color="secondary"
 								onClick={() => {
-									navigate(id ? `/invitation-cards/${id}/reply` : '', {
+									navigate(id ? `/fair-card-list/${id}/reply` : '', {
 										state: {palette},
 									});
 								}}
@@ -569,7 +577,7 @@ export default function InvitationCard(): ReactElement {
 				<BottomNavigation sx={{
 					backgroundColor: (theme) => theme.palette.grey[50],
 					borderTop      : (theme) => `1px solid ${theme.palette.grey[400]}`,
-					
+
 					transition: (theme) => theme.transitions.create(['bottom']),
 					bottom    : navigation_bar ? 0 : -70,
 				}}>
@@ -586,8 +594,12 @@ export default function InvitationCard(): ReactElement {
 							<Grid onClick={() => {
 								setNavigationBar(false);
 							}}>
-								<Button variant="text" onClick={() => {
-									navigate(id ? `/invitation-cards/${id}/reply` : '', {
+								<Button variant="text"
+                                        sx={{
+                                            color: isTooLightYIQ(palette.primary.main) ? 'black' : palette.primary.main
+                                        }}
+                                        onClick={() => {
+									navigate(id ? `/fair-card-list/${id}/reply` : '', {
 										state: {
 											invitation_card,
 											palette,
@@ -596,10 +608,19 @@ export default function InvitationCard(): ReactElement {
 								}}>
 									بله
 								</Button>
-								<Button variant="text">
+								<Button variant="text"
+                                        sx={{
+                                            color: isTooLightYIQ(palette.primary.main) ? 'black' : palette.primary.main
+                                        }}
+
+                                >
 									خیر
 								</Button>
-								<Button variant="text">
+								<Button variant="text"
+                                        sx={{
+                                            color: isTooLightYIQ(palette.primary.main) ? 'black' : palette.primary.main
+                                        }}
+                                >
 									شاید
 								</Button>
 							</Grid>

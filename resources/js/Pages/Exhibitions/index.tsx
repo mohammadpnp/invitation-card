@@ -46,44 +46,44 @@ import ExhibitionType, {Filters} from '../../Types/Exhibition';
 export default function Index(): ReactElement {
 	/* Location */
 	const [search_params, setSearchParams] = useSearchParams();
-	
+
 	/* States */
 	const [exhibitions, setExhibitions] = useState<ExhibitionType[]>([]);
 	const [filters, setFilters]         = useState<Filters>({});
-	
+
 	const [placeholder, setPlaceholder] = useState(false);
-	
+
 	const [bookmark, setBookmark]           = useState(false);
 	const [anchorElement, setAnchorElement] = useState<null | HTMLElement>(null);
-	
+
 	// Ref
 	const ref = useRef<HTMLDivElement>(null);
-	
+
 	const open = Boolean(anchorElement);
-	
+
 	const toggleMenu = (event: MouseEvent<HTMLElement>) => {
 		setAnchorElement(event.currentTarget);
 	};
-	
+
 	const handleClose = () => {
 		setAnchorElement(null);
 	};
-	
+
 	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
-		
+
 		setPlaceholder(true);
-		
+
 		(async () => {
 			await getExhibitions(search_params).then((result): void => {
 				setPlaceholder(false);
-				
+
 				setExhibitions(result.items);
 				setFilters(result.filters);
 			});
 		})();
 	}, [setExhibitions]);
-	
+
 	// placeholder
 	if (placeholder) {
 		if (!exhibitions.length) {
@@ -102,10 +102,10 @@ export default function Index(): ReactElement {
 				);
 			}
 		}
-		
+
 		if (!Object.values(filters).length) {
 			Object.assign(filters, {placeholders: []});
-			
+
 			// filters
 			for (let i = 0; i < 6; i++) {
 				filters.placeholders.push(
@@ -117,7 +117,7 @@ export default function Index(): ReactElement {
 			}
 		}
 	}
-	
+
 	return (
 		<ThemeProvider
 			theme={M3()}
@@ -138,11 +138,11 @@ export default function Index(): ReactElement {
 					<Card className={placeholder ? 'placeholder' : ''}>
 						<CardMedia image={slide_1} sx={{width: '100%', height: '300px'}} />
 					</Card>
-					
+
 					{
 						Object.entries(filters).map((filter, index) => {
 							const [key, items] = filter;
-							
+
 							return items.length ?
 								(
 									<Box key={index}>
@@ -158,7 +158,7 @@ export default function Index(): ReactElement {
 													const search_param_key    = `filter[${key}][]`;
 													const search_param_values = search_params.getAll(search_param_key);
 													const active              = search_param_values ? search_param_values.includes(String(id)) : null;
-													
+
 													return <Chip
 														key={index}
 														label={name}
@@ -182,7 +182,7 @@ export default function Index(): ReactElement {
 								null
 						})
 					}
-					
+
 					<Menu
 						id="demo-customized-menu"
 						MenuListProps={{
@@ -213,7 +213,7 @@ export default function Index(): ReactElement {
 							اینستاگرام
 						</MenuItem>
 					</Menu>
-					
+
 					{
 						exhibitions.map(({id, title, description, image, start_at, end_at}, index) => (
 							<Card
@@ -267,7 +267,7 @@ export default function Index(): ReactElement {
 										},
 										gap          : theme.spacing(2),
 										margin       : 0,
-										
+
 										'.dash': {
 											display: {
 												xs: 'none',
@@ -301,7 +301,7 @@ export default function Index(): ReactElement {
 										>
 											{bookmark ? <BookmarkRounded /> : <BookmarkBorderRounded />}
 										</IconButton>
-										
+
 										<IconButton
 											size="small"
 											edge="end"

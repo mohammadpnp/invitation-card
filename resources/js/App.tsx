@@ -7,9 +7,11 @@ import AppBar          from './Components/AppBar';
 import NavigationBar   from './Components/NavigationBar';
 import {M3}            from './Themes/M3';
 
+import '../css/app.css';
+
 function refreshCompanies(): Companies[] {
 	const getRandomInt = (max: number) => Math.floor(Math.random() * Math.floor(max));
-	
+
 	return Array.from(new Array(10)).map(
 		() => companyExamples[getRandomInt(companyExamples.length)],
 	);
@@ -35,7 +37,7 @@ const companyExamples: readonly Companies[] = [
 
 export default function App(): ReactElement {
 	const ref = React.useRef<HTMLDivElement>(null);
-	
+
 	return (
 		<ThemeProvider theme={M3()}>
 			<Box sx={{pb: 7}} ref={ref}>
