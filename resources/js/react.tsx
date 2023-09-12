@@ -67,31 +67,31 @@ const router = createBrowserRouter(
 		 },
 		 */
 		{
-			path   : 'invitation-cards',
+			path   : 'fair-card-list',
 			element: (
 				<InvitationCards />
 			),
 		},
 		{
-			path   : 'invitation-cards/:id/intro',
+			path   : 'fair-card-list/:id/intro',
 			element: (
 				<InvitationCardsIntro />
 			),
 		},
 		{
-			path   : 'invitation-cards/:id',
+			path   : 'fair-card-list/:id',
 			element: (
 				<InvitationCardItem />
 			),
 		},
 		{
-			path   : 'invitation-cards/:id/reply',
+			path   : 'fair-card-list/:id/reply',
 			element: (
 				<InvitationCardsReply />
 			),
 		},
 		{
-			path   : 'invitation-cards/:id/map',
+			path   : 'fair-card-list/:id/map',
 			element: (
 				<InvitationCardsMap />
 			),

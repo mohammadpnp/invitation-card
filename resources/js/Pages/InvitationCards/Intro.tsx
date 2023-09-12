@@ -315,7 +315,7 @@ const templates: Templates = {
 		item          : {
 			width : '500px',
 			height: '500px',
-			
+
 			[theme.breakpoints.up('sm')]: {
 				width : '600px',
 				height: '600px',
@@ -343,7 +343,7 @@ const templates: Templates = {
 		item          : {
 			width : '250px',
 			height: '250px',
-			
+
 			[theme.breakpoints.up('sm')]: {
 				width : '300px',
 				height: '300px',
@@ -447,15 +447,15 @@ const template_types = {
 
 function getSxProperties(template: string, key: string): CSSInterpolation {
 	const keys: string[] = key.split('.');
-	
+
 	let templates_default: CSSInterpolation | CSSInterpolation[]  = templates.default[keys[0] as keyof Template];
 	let templates_template: CSSInterpolation | CSSInterpolation[] = templates[template][keys[0] as keyof Template];
-	
+
 	if (Array.isArray(templates_default) && Array.isArray(templates_template)) {
 		templates_default  = templates_default[Number(keys[1])] as CSSInterpolation;
 		templates_template = templates_template[Number(keys[1])] as CSSInterpolation;
 	}
-	
+
 	return Object.assign(templates_default as object, templates_template as object) as CSSInterpolation;
 }
 
@@ -464,7 +464,7 @@ export default function Intro(): ReactElement {
 	const location              = useLocation();
 	const {id} = useParams();
 	const [search_params, setSearchParams] = useSearchParams();
-	
+
 	/* States */
 	const [invitation_card, setInvitationCard] = useState<InvitationCard>(
 		{
@@ -478,13 +478,13 @@ export default function Intro(): ReactElement {
 			template_type: 1,
 		},
 	);
-	
+
 	const [placeholder, setPlaceholder] = useState(false);
-	
+
 	const [palette, setPalette] = useState<PaletteColors>(location.state?.palette);
-	
+
 	const [dimensions, setDimensions] = useState(window)
-	
+
 	const {
 		      logo,
 		      pictures,
@@ -492,48 +492,48 @@ export default function Intro(): ReactElement {
 		      slogan,
 		      template_type,
 	      } = invitation_card;
-	
+
 	const template: keyof Templates = template_types[template_type]; // ceil for skip first (default)
-	
+
 	const ImagesWrapper = styled(Box)(getSxProperties(template, 'images_wrapper'));
 	const ImagesInner   = styled(Box)(getSxProperties(template, 'images_inner'));
-	
+
 	const Item = styled(Box)(getSxProperties(template, 'item'));
-	
+
 	const Image = styled('img')(getSxProperties(template, 'image'));
-	
+
 	const ref = useRef<HTMLDivElement>(null);
-	
+
 	useEffect(() => {
 		(ref.current as HTMLDivElement).ownerDocument.body.scrollTop = 0;
-		
+
 		setPlaceholder(true);
-		
+
 		(async () => {
 			await getInvitationCard(Number(id), search_params).then((result): void => {
 				setInvitationCard(result.item);
 			});
 		})();
 	}, [search_params]);
-	
+
 	useEffect(() => {
 		let timeout: NodeJS.Timeout;
-		
+
 		window.addEventListener(
 			'resize',
 			function () {
 				clearTimeout(timeout);
-				
+
 				timeout = setTimeout(() => {
 					setDimensions(window);
 				}, 100);
 			},
 		);
 	});
-	
+
 	// Demo data
 	const direction: 'ltr' | 'rtl' = Helper.isRtl(title) ? 'rtl' : 'ltr';
-	
+
 	// @ts-ignore
 	return (
 		<ThemeProvider theme={M3(palette)}>
@@ -542,7 +542,7 @@ export default function Intro(): ReactElement {
 				<Trapezium sx={{
 					animation: `1s ${getTrapeziumAnimation(dimensions)} linear forwards`,
 				}} />
-				
+
 				{
 					template === 'triangles'
 						?
@@ -556,7 +556,7 @@ export default function Intro(): ReactElement {
 						:
 						null
 				}
-				
+
 				<ImagesWrapper>
 					<ImagesInner>
 						{
@@ -577,11 +577,11 @@ export default function Intro(): ReactElement {
 						}
 					</ImagesInner>
 				</ImagesWrapper>
-				
+
 				<LogoWrapper sx={{
 					textAlign: direction === 'ltr' ? 'right' : 'left',
 				}}>
-					<Link to={`/invitation-cards/${id}`} state={{palette}}>
+					<Link to={`/fair-card-list/${id}`} state={{palette}}>
 						<Logo
 							src={logo}
 							alt=""
@@ -589,13 +589,13 @@ export default function Intro(): ReactElement {
 								if (palette) {
 									return;
 								}
-								
+
 								const logo_palette = getPaletteFromImage(event.currentTarget);
-								
+
 								setPalette(logo_palette);
 							}} />
 					</Link>
-					
+
 					<Typography fontWeight={500} sx={{
 						fontSize: {
 							xs: 12,
@@ -605,10 +605,10 @@ export default function Intro(): ReactElement {
 						},
 					}}>{slogan}</Typography>
 				</LogoWrapper>
-				
+
 				<IconWrapper component={Link}
 					// @ts-ignore: attribute defined in Link component
-					         to={`/invitation-cards/${id}`}
+					         to={`/fair-card-list/${id}`}
 					         state={{palette}}>
 					<Icon src={invitation_card_icon} alt="" />
 					<Chip label="کارت دعوت شما" />
