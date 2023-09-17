@@ -10,7 +10,7 @@ import {logDOM} from "@testing-library/react";
 type Response = AxiosResponse<InvitationCardsResponse, {}>;
 
 type Result = {
-    all: {}
+    all: any
     items: InvitationCard[],
     filters: Filters
 };

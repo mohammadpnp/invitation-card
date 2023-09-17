@@ -254,7 +254,7 @@ export default function Item(): ReactElement {
                                                         component="a"
                                                         icon={<CheckRounded/>}
                                                         clickable
-                                                        onClick={(event) => {
+                                                        onClick={(event: any) => {
                                                             setSearchParams(`${search_param_key}=${id}`);
                                                         }}
                                                         variant={active ? 'filled' : 'outlined'}

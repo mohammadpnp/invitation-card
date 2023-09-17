@@ -8,7 +8,7 @@ import FairPlacesResponse     from './Types/Responses/FairPlaces';
 type Response = AxiosResponse<FairPlacesResponse, {}>;
 
 type Result = {
-    all: {},
+    all: any,
 	items: Place[],
 	filters: Filters
 };

@@ -221,7 +221,7 @@ export default function InvitationCards(): ReactElement {
                             className="mySwiper"
                         >
                             {
-                                !!banners?.length && banners?.map(banner =>
+                                !!banners?.length && banners?.map((banner: any) =>
                                     <SwiperSlide>
                                         <Box
                                             component={'img'}
@@ -266,7 +266,7 @@ export default function InvitationCards(): ReactElement {
                                                         component="a"
                                                         icon={<CheckRounded/>}
                                                         clickable
-                                                        onClick={(event) => {
+                                                        onClick={(event:any) => {
                                                             search_params.set(search_param_key, String(id));
 
                                                             setSearchParams(search_params);
