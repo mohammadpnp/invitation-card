@@ -165,7 +165,7 @@ export default function Index(): ReactElement {
 														component="a"
 														icon={<CheckRounded />}
 														clickable
-														onClick={(event) => {
+														onClick={(event: any) => {
 															setSearchParams(id ? {[search_param_key]: `${id}`} : '');
 														}}
 														variant={active ? 'filled' : 'outlined'}

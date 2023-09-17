@@ -9,7 +9,7 @@ import FairItem               from './Types/Item/Fair';
 type Response = AxiosResponse<FairsResponse, {}>;
 
 type Result = {
-    all: {},
+    all: any,
 	items: Exhibition[],
 	filters: Filters
 };

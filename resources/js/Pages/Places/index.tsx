@@ -180,7 +180,7 @@ export default function Index(): ReactElement {
                             className="mySwiper"
                         >
                             {
-                                !!banners?.length && banners?.map(banner =>
+                                !!banners?.length && banners?.map((banner: any) =>
                                     <SwiperSlide>
                                         <Box
                                             component={'img'}
@@ -225,7 +225,7 @@ export default function Index(): ReactElement {
                                                         component="a"
                                                         icon={<CheckRounded/>}
                                                         clickable
-                                                        onClick={(event) => {
+                                                        onClick={(event: any) => {
                                                             // setSearchParams(id ? {[search_param_key]: `${id}`} : '');
                                                             setSearchParams(`?filter[${key}][]=${id}`);
                                                         }}
