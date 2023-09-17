@@ -230,7 +230,7 @@ export default function Item(): ReactElement {
 
 
                     {
-                       Object.keys(allData).length > 0 && Object.entries(filters).map((filter, index) => {
+                       Object.keys(allData).length > 0 && Object.entries(filters).map((filter:any, index) => {
                             const [key, items] = filter;
                             return items?.data.length > 0 &&
                                 (
@@ -243,7 +243,7 @@ export default function Item(): ReactElement {
                                             marginBottom: theme.spacing(1),
                                         }}>
                                             {
-                                                items?.data.map(({id, name}, index) => {
+                                                items?.data.map(({id, name}: any, index: number) => {
                                                     const search_param_key = `filter[${key}][]`;
                                                     const search_param_values = search_params.getAll(search_param_key);
                                                     const active = search_param_values ? search_param_values.includes(String(id)) : null;
