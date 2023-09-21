@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\EditUserRequest;
+use App\Http\Requests\Admin\PasswordRequest;
 use App\Http\Requests\Admin\UsersRequest;
 use Illuminate\Support\Facades\Hash;
 
@@ -45,7 +47,7 @@ class UsersController extends Controller
             'password' => Hash::make($request->password)
         ]);
 
-        return redirect()->route('admin.users.index');
+        return redirect()->route('users.index');
     }
 
     /**
@@ -73,9 +75,14 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UsersRequest $request, string $id)
+    public function update(EditUserRequest $request, string $id)
     {
-        //
+        
+        $user = User::findOrFail($id);
+
+        $user->update($request->validated());
+
+        return redirect()->route('users.index')->with('message', 'User info changed!');
     }
 
     /**
@@ -84,5 +91,13 @@ class UsersController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    public function password(PasswordRequest $request, string $id) {
+
+        $user = User::findOrFail($id);
+        $user->password = Hash::make($request->password);
+
+        return redirect()->route('users.index')->with('message', 'User password Changed!');
     }
 }

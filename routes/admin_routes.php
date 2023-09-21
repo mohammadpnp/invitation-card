@@ -37,5 +37,6 @@ Route::prefix('/admin')->group(function (){
         })->name('admin.dashboard');
 
         Route::resource('/users', UsersController::class);
+        Route::post('/users/password/{id}', [UsersController::class, 'password'])->name('admin.users.password');
     });
 })->name('admin');
