@@ -14,8 +14,8 @@ class DeletePasswordFromUsersTable extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('password');
-            $table->dropColumn('remember_token');
+            // $table->dropColumn('password');
+            // $table->dropColumn('remember_token');
         });
     }
 
