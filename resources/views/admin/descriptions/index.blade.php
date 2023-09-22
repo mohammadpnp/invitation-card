@@ -82,7 +82,18 @@
                                                 <div class="d-flex flex-column justify-content-center w-100">
                                                     <span class="text-body text-truncate">
                                                         <a href="{{route('descriptions.show',$description->id)}}" class="text-body text-truncate">
-                                                        <span class="fw-semibold"> {{$description->type}}</span>
+                                                            <span class="fw-semibold">@switch($description->type)
+                                                                                        @case(1)
+                                                                                            سر صفحه
+                                                                                            @break
+                                                                                        @case(2)
+                                                                                            بخش اصلی
+                                                                                            @break
+                                                                                        @case(3)
+                                                                                            پا صفحه
+                                                                                            @break
+                                                                                    @endswitch
+                                                            </span>
                                                         </a>
                                                     </span>
                                                 </div>
