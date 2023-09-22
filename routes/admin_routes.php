@@ -1,12 +1,13 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Middleware\ShowCardMiddleWare;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Auth\AdminAuthController;
-use App\Http\Controllers\Auth\CompanyAuthController;
 use App\Http\Controllers\Auth\UserAuthController ;
+use App\Http\Controllers\Auth\CompanyAuthController;
+use App\Http\Controllers\Admin\DescriptionsController;
 use App\Http\Controllers\InvitationCard\InvitationCardController;
-use App\Http\Middleware\ShowCardMiddleWare;
-use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,5 +39,7 @@ Route::prefix('/admin')->group(function (){
 
         Route::resource('/users', UsersController::class);
         Route::post('/users/password/{id}', [UsersController::class, 'password'])->name('admin.users.password');
+
+        Route::resource('/descriptions', DescriptionsController::class);
     });
 })->name('admin');

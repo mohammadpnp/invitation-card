@@ -14,4 +14,8 @@ class Description extends Model
     public const TYPE_MAIN = 2;
     public const TYPE_FOOTER = 3;
 
+    protected $fillable = [
+        'type',
+        'description',
+    ];
 }
