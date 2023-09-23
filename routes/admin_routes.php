@@ -4,11 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ShowCardMiddleWare;
 use App\Http\Controllers\Admin\PoemsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\Admin\NavbarsController;
 use App\Http\Controllers\Auth\AdminAuthController;
 use App\Http\Controllers\Auth\UserAuthController ;
+use App\Http\Controllers\Admin\FairPlacesController;
 use App\Http\Controllers\Auth\CompanyAuthController;
 use App\Http\Controllers\Admin\DescriptionsController;
-use App\Http\Controllers\Admin\NavbarsController;
 use App\Http\Controllers\InvitationCard\InvitationCardController;
 
 /*
@@ -45,5 +46,6 @@ Route::prefix('/admin')->group(function (){
         Route::resource('/descriptions', DescriptionsController::class);
         Route::resource('/poems', PoemsController::class);
         Route::resource('/navbars', NavbarsController::class);
+        Route::resource('/fairPlaces', FairPlacesController::class);
     });
 })->name('admin');
