@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\ShowCardMiddleWare;
+use App\Http\Controllers\Admin\FairsController;
 use App\Http\Controllers\Admin\PoemsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\Admin\NavbarsController;
@@ -47,5 +48,6 @@ Route::prefix('/admin')->group(function (){
         Route::resource('/poems', PoemsController::class);
         Route::resource('/navbars', NavbarsController::class);
         Route::resource('/fairPlaces', FairPlacesController::class);
+        Route::resource('/fairs', FairsController::class);
     });
 })->name('admin');

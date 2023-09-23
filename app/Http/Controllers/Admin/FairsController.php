@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Fair;
+use Illuminate\Support\Str;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 use App\Http\Requests\Admin\FairsRequest;
+use App\Models\FairPlace;
 
 class FairsController extends Controller
 {
@@ -14,8 +17,8 @@ class FairsController extends Controller
     public function index()
     {
 
-        return view('admin.descriptions.index', [
-            'descriptions' => Fair::paginate(15)
+        return view('admin.fairs.index', [
+            'fairs' => Fair::paginate(15)
         ]);
     }
 
@@ -25,7 +28,9 @@ class FairsController extends Controller
     public function create()
     {
         
-        return view('admin.descriptions.create');
+        return view('admin.fairs.create', [
+            'fairPlaces' => FairPlace::all()
+        ]);
     }
 
     /**
@@ -34,9 +39,11 @@ class FairsController extends Controller
     public function store(FairsRequest $request)
     {
         
-        Fair::create($request->validated());
+        $fair = Fair::create($request->validated());
 
-        return redirect()->route('descriptions.index');
+        $this->poster($request, $fair);
+
+        return redirect()->route('fairs.index');
     }
 
     /**
@@ -45,8 +52,8 @@ class FairsController extends Controller
     public function show(string $id)
     {
         
-        return view('admin.descriptions.show', [
-            'description' => Fair::findOrFail($id)
+        return view('admin.fairs.show', [
+            'fair' => Fair::findOrFail($id)
         ]);
     }
 
@@ -56,8 +63,9 @@ class FairsController extends Controller
     public function edit(string $id)
     {
 
-        return view('admin.descriptions.edit', [
-            'description' => Fair::findOrFail($id)
+        return view('admin.fairs.edit', [
+            'fair' => Fair::findOrFail($id),
+            'fairPlaces' => FairPlace::all()
         ]);
     }
 
@@ -67,10 +75,12 @@ class FairsController extends Controller
     public function update(FairsRequest $request, string $id)
     {
         
-        $description = Fair::findOrFail($id);
-        $description->update($request->validated());
+        $fair = Fair::findOrFail($id);
+        $fair->update($request->validated());
 
-        return redirect()->route('descriptions.index')->with('message', 'Fair info changed!');
+        $this->poster($request, $fair);
+
+        return redirect()->route('fairs.index')->with('message', 'Fair info changed!');
     }
 
     /**
@@ -79,9 +89,34 @@ class FairsController extends Controller
     public function destroy(string $id)
     {
         
-        $description = Fair::findOrFail($id);
-        $description->delete();
+        $fair = Fair::findOrFail($id);
+        $fair->delete();
 
-        return redirect()->route('descriptions.index')->with('message', 'Fair Deleted!');
+        return redirect()->route('fairs.index')->with('message', 'Fair Deleted!');
+    }
+
+    public function poster($request, $navbar) {
+
+        $storage = Storage::disk('fairs_pictures');
+
+        if ($request->hasFile('poster')) {
+            $file = $request->file('poster');
+            if ($file->isValid()) {
+                $path = date('Y/m/d');
+                $extension = $file->getClientOriginalExtension();
+                $name = Str::random(26) . rand(10000, 999999) . '.' . $extension;
+                $fullPath = $storage->putFileAs($path, $file, $name);
+
+                $navbar->update([
+                    'poster' => $fullPath,
+                ]);
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+
+        return true;
     }
 }

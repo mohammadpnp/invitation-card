@@ -32,7 +32,7 @@ class FairsRequest extends FormRequest
             'start_date_at' => '',
             'end_date_at' => '',
             'presenter' => 'required|max:64',
-            'fair_place_id' => 'required',
+            'fair_place_id' => 'required|exists:fair_places,id',
         ];
     }
 }
