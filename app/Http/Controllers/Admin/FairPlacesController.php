@@ -94,8 +94,8 @@ class FairPlacesController extends Controller
 
         $storage = Storage::disk('fair_places_pictures');
 
-        if ($request->hasFile('icon')) {
-            $file = $request->file('icon');
+        if ($request->hasFile('poster')) {
+            $file = $request->file('poster');
             if ($file->isValid()) {
                 $path = date('Y/m/d');
                 $extension = $file->getClientOriginalExtension();
@@ -103,7 +103,7 @@ class FairPlacesController extends Controller
                 $fullPath = $storage->putFileAs($path, $file, $name);
 
                 $fairPlace->update([
-                    'icon' => $fullPath,
+                    'poster' => $fullPath,
                 ]);
             } else {
                 return false;
