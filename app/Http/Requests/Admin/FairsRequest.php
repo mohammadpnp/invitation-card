@@ -28,7 +28,7 @@ class FairsRequest extends FormRequest
             'city' => 'required|max:64',
             'title' => 'required|max:64',
             'salon' => 'required|max:64',
-            'poster' => ['nullable', File::types(['png', 'jpg', 'jpeg'])->max(12 * 1024)],
+            'poster' => ['nullable', File::types(['png', 'jpg', 'jpeg'])->max(1024)],
             'start_date_at' => '',
             'end_date_at' => '',
             'presenter' => 'required|max:64',
