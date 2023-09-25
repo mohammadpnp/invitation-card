@@ -10,6 +10,11 @@ class Poem extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'poem',
+        'voice',
+    ];
+
     public function getVoiceUrlAttribute()
     {
         return $this->voice ? Storage::disk('poem_voices')->url($this->voice) : null;

@@ -122,6 +122,13 @@ return [
             'url' => env('APP_URL') . '/uploads/deputize/pictures',
             'visibility' => 'public',
         ],
+
+        'navbar_icon' => [
+            'driver' => 'local',
+            'root' => 'uploads/navbar/icon',
+            'url' => env('APP_URL') . '/uploads/navbar/icon',
+            'visibility' => 'public',
+        ],
     ],
 
     /*

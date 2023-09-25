@@ -10,6 +10,13 @@ class FairPlace extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'name',
+        'description',
+        'is_internal',
+        'poster',
+    ];
+
     public function scopeFilter($query, $request)
     {
         if (isset($request->get('filter')['is_internal']) && count($request->get('filter')['is_internal']) < 2) {
