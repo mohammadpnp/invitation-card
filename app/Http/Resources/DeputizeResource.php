@@ -18,7 +18,7 @@ class DeputizeResource extends JsonResource
             'id' => $this->id,
             'main_pictures' => AttachmentResource::collection($this->pictures),
             'brand' => $this->brand,
-            'logo' => $this->logo_url,
+            'logo' => $this->logo,
             'slogan' => $this->slogan,
             'description' => $this->description,
             'products' => ProductResource::collection($this->products),
@@ -28,6 +28,7 @@ class DeputizeResource extends JsonResource
             'youtube_id' => $this->youtube_link,
             'website_link' => $this->website_link,
             'video_link' => $this->video_link,
+            'template_type' => 2,
         ];
     }
 }

@@ -18,7 +18,7 @@ class PaperCardResource extends JsonResource
             'id' => $this->id,
             'main_pictures' => AttachmentResource::collection($this->pictures),
             'brand' => $this->brand,
-            'logo' => $this->logo_url,
+            'logo' => $this->logo,
             'title' => $this->title,
             'slogan' => $this->slogan,
             'saloon' => (float)$this->saloon,
@@ -27,7 +27,7 @@ class PaperCardResource extends JsonResource
             'finished_at' => $this->finished_at,
             'fair' => new FairsResource($this->fair),
             'description' => $this->description,
-            'manager_photo' => $this->manager_photo_url,
+            'manager_photo' => $this->manager_photo,
             'manager_name' => $this->manager_name,
             'lat' => (float)$this->lat,
             'lng' => (float)$this->lng,
@@ -35,6 +35,7 @@ class PaperCardResource extends JsonResource
             'youtube_id' => $this->youtube_link,
             'website_link' => $this->website_link,
             'video_link' => $this->video_link,
+            'template_type' => 1,
         ];
     }
 }

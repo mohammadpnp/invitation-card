@@ -18,10 +18,11 @@ class SpecialSellResource extends JsonResource
             'id' => $this->id,
             'main_pictures' => AttachmentResource::collection($this->pictures),
             'brand' => $this->brand,
-            'logo' => $this->logo_url,
+            'logo' => $this->logo,
             'slogan' => $this->slogan,
             'description' => $this->description,
-            'products' => ProductResource::collection($this->products)
+            'products' => ProductResource::collection($this->products),
+            'template_type' => 3,
         ];
     }
 }
